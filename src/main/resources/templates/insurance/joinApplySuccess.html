@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>보험 가입 성공</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div class="container" style="max-width: 60%">
+    <div class="py-5 text-center">
+        <h2>보험 가입 성공</h2>
+    </div>
+    <div class="alert alert-success" role="alert">
+        보험 가입 신청이 완료되었습니다. 아래 주소로 보험료를 지불해주세요.
+    </div>
+    <div class="py-5 text-center">
+        <strong>0xE564Bd624b37C8a91E40C0fBb9D9a4058d7F6981</strong>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title" th:text="${userInsurance.insurance.name}">보험 이름</h5>
+            <p class="card-text">
+                <strong>보험료(원):</strong> <span th:text="${userInsurance.registerPrice}">지불할 보험료</span><br>
+                <strong>보험료(이더리움):</strong> <span th:text="${userInsurance.etherRegisterPrice}">지불할 보험료</span><br>
+                <strong>보험 시작 날짜:</strong> <span th:text="${userInsurance.startDate}">시작 날짜</span><br>
+                <strong>보험 종료 날짜:</strong> <span th:text="${userInsurance.endDate}">종료 날짜</span><br>
+            </p>
+        </div>
+    </div>
+    <div class="py-5 text-center">
+        <button class="btn btn-primary" th:onclick="|location.href='@{/user/info}'|">내 정보로 이동</button>
+    </div>
+</div>
+</body>
+</html>

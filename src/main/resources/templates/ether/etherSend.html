@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MetaMask Transaction</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+</head>
+<body>
+<button id="sendTransactionButton">보상 지급</button>
+
+<script>
+    document.getElementById('sendTransactionButton').addEventListener('click', async () => {
+        if (typeof window.ethereum !== 'undefined') {
+            const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+            const account = accounts[0];
+
+            const transactionParameters = {
+                to: 'RECEIVER_ADDRESS', // 이더리움을 받을 주소
+                from: account,
+                value: web3.utils.toHex(web3.utils.toWei('0.1', 'ether')), // 전송할 이더리움의 양
+                gas: '21000', // 가스 한도
+            };
+
+            try {
+                const txHash = await ethereum.request({
+                    method: 'eth_sendTransaction',
+                    params: [transactionParameters],
+                });
+
+                // 트랜잭션 해시를 백엔드로 전송
+                const response = await fetch('/transaction', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ txHash: txHash, address: account }),
+                });
+
+                const result = await response.text();
+                alert(result);
+
+            } catch (error) {
+                console.error(error);
+                alert('Transaction failed.');
+            }
+        } else {
+            alert('MetaMask is not installed!');
+        }
+    });
+</script>
+</body>
+</html>

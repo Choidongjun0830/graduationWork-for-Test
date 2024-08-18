@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+<!-- 컨트롤러에서 받아온 변수 적용하기/ inline 사용 -->
+<script th:inline="javascript">
+    var message = [[${msg}]];
+    alert(message);
+
+    location.replace([[${url}]]);
+</script>
+
+</body>
+</html>

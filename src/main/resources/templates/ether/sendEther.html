@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Send Ether</title>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js"></script>
+  <!-- 최신 ethereumjs-tx (이제 @ethereumjs/tx) 라이브러리의 번들링된 UMD 버전 사용 -->
+  <script src="https://cdn.jsdelivr.net/npm/@ethereumjs/tx@4.0.0/dist/index.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/buffer@5.6.0/index.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  <style>
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+
+<body>
+<div id="send-info">
+  <div class='input-group'>
+    <span class="input-group-addon" id="basic-addon1">From Private Key</span>
+    <input type="text" class="form-control" id="from-private-key"
+           value="f7d2acb2b3ec46e8845c9a0b03bba14dcf7a835f0121e2ef11540f4abaa181bcb5">
+  </div>
+  <div class='input-group'>
+    <span class="input-group-addon" id="basic-addon2">From Account</span>
+    <input type="text" class="form-control" id="from-account"
+           value="0xED0313fC6A0cd7c36f5beE689455c6b95742E6d8">
+  </div>
+  <div class='input-group'>
+    <span class="input-group-addon" id="basic-addon3">To Account</span>
+    <input type="text" class="form-control" id="to-account"
+           value="0x0D39cC3Efc5B7A7821F346953A877228Ae66fE52b">
+  </div>
+  <div class='input-group'>
+    <span class="input-group-addon" id="basic-addon4">Value (ETH)</span>
+    <input type="text" class="form-control" id="value" placeholder="1" value="0.001">
+  </div>
+  <div class='input-group'>
+    <span class="input-group-addon" id="basic-addon5">Gas Price (Gwei)</span>
+    <input type="text" class="form-control" id="gas-price" value="9">
+  </div>
+</div>
+
+<div class="btn-group btn-group-justified" role="group" style="margin-top:20px;">
+  <div class="btn-group" role="group">
+    <button type="button" class="btn btn-default" aria-label="Left Align" id="submit">
+      <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"> 배포</span>
+    </button>
+  </div>
+</div>
+
+<!-- 트랜잭션 상태 표시 영역 -->
+<div id="transaction-status" class="error"></div>
+
+<script>
+  // Sepolia 네트워크에 연결
+  const web3 = new Web3(new Web3.providers.HttpProvider('https://sepolia.infura.io/v3/b209d342ca714c859f2e10e608e22db9'));
+
+  // 트랜잭션 정보를 가져오는 함수
+  const getInfo = () => ({
+    fromPrivateKey: document.getElementById('from-private-key').value.trim(),
+    fromAccount: document.getElementById('from-account').value.trim(),
+    toAccount: document.getElementById('to-account').value.trim(),
+    value: document.getElementById('value').value.trim(),
+    gasPrice: parseInt(document.getElementById('gas-price').value.trim(), 10)
+  });
+
+  // 요청 중 플래그
+  let isRequesting = false;
+
+  // 트랜잭션을 보내는 함수
+  const sendTransaction = async () => {
+    const gasLimit = 21000; // 일반적인 전송 트랜잭션에 대한 기본 가스 한도
+    const gWei = 9;
+
+    // 중복 요청 방지
+    if (isRequesting) return;
+
+    // 요청 진행 중 플래그 설정
+    isRequesting = true;
+    document.getElementById('transaction-status').innerHTML = "트랜잭션 준비 중...";
+
+    try {
+      const {
+        fromPrivateKey,
+        fromAccount,
+        toAccount,
+        value,
+        gasPrice
+      } = getInfo();
+
+      // 입력 데이터 검증
+      if (!web3.utils.isAddress(fromAccount) || !web3.utils.isAddress(toAccount)) {
+        throw new Error('유효하지 않은 주소입니다.');
+      }
+
+      if (isNaN(value) || parseFloat(value) <= 0) {
+        throw new Error('유효하지 않은 전송 금액입니다.');
+      }
+
+      if (isNaN(gasPrice) || gasPrice <= 0) {
+        throw new Error('유효하지 않은 가스 가격입니다.');
+      }
+
+      // 계정 잔액 확인
+      let balance = await web3.eth.getBalance(fromAccount);
+      balance = parseFloat(web3.utils.fromWei(balance, 'ether'));
+      console.log(`Account Balance: ${balance} ETH`);
+
+      // 잔액이 충분하지 않으면 경고
+      if (balance < parseFloat(value)) {
+        throw new Error('계정 잔액이 충분하지 않습니다.');
+      }
+
+      // 트랜잭션 nonce 가져오기
+      const nonce = await web3.eth.getTransactionCount(fromAccount, 'pending');
+      console.log(`Nonce: ${nonce}`);
+
+      const rawTx = {
+        nonce: web3.utils.toHex(nonce),
+        gasLimit: web3.utils.toHex(gasLimit),
+        gasPrice: web3.utils.toHex(web3.utils.toWei(gasPrice.toString(), 'gwei')),
+        from: fromAccount,
+        to: toAccount,
+        value: web3.utils.toHex(web3.utils.toWei(value, 'ether')),
+        data: '0x'
+      };
+      console.log(`Raw Transaction: ${JSON.stringify(rawTx)}`);
+
+      // 트랜잭션 생성 및 서명
+      const tx = new ethereumjs.Tx(rawTx, { chain: 'sepolia' });
+      const pk = Buffer.from(fromPrivateKey, 'hex');
+      tx.sign(pk);
+
+      // 트랜잭션 직렬화
+      const serializedTx = tx.serialize();
+      const rawSerializedTx = '0x' + serializedTx.toString('hex');
+      console.log(`Serialized Transaction: ${rawSerializedTx}`);
+
+      // 트랜잭션 전송
+      document.getElementById('transaction-status').innerHTML = "트랜잭션 전송 중...";
+      document.getElementById('submit').disabled = true; // 버튼 비활성화
+
+      web3.eth.sendSignedTransaction(rawSerializedTx)
+              .on('transactionHash', (hash) => {
+                console.log(`Transaction Hash: ${hash}`);
+                alert(`Transaction submitted: https://sepolia.etherscan.io/tx/${hash}`);
+                document.getElementById('transaction-status').innerHTML = "트랜잭션이 성공적으로 전송되었습니다.";
+                document.getElementById('submit').disabled = false; // 버튼 활성화
+                isRequesting = false; // 요청 완료 플래그 해제
+              })
+              .on('receipt', (receipt) => {
+                console.log(`Transaction Receipt: ${JSON.stringify(receipt)}`);
+              })
+              .on('error', (error) => {
+                console.error(`Error: ${error.message}`);
+                document.getElementById('transaction-status').innerHTML = `트랜잭션 전송 중 오류가 발생했습니다: ${error.message}`;
+                document.getElementById('submit').disabled = false; // 버튼 활성화
+                isRequesting = false; // 요청 완료 플래그 해제
+              });
+
+    } catch (error) {
+      console.error(`Exception: ${error.message}`);
+      document.getElementById('transaction-status').innerHTML = `오류: ${error.message}`;
+      document.getElementById('submit').disabled = false; // 버튼 활성화
+      isRequesting = false; // 요청 완료 플래그 해제
+    }
+  }
+
+  // 페이지 로드 후 이벤트 리스너 등록
+  document.addEventListener('DOMContentLoaded', () => {
+    const submitButton = document.getElementById('submit');
+    submitButton.addEventListener('click', sendTransaction); // 클릭 시 한 번만 이벤트 리스너 등록
+  });
+
+</script>
+</body>
+
+</html>

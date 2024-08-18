@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <style>
+        .field-error {
+            color: #dc3545;
+            margin-top: 0.25rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+    <title>졸업 작품</title>
+</head>
+<body>
+<div class="container" style="max-width: 600px">
+    <div class="py-5 text-center">
+        <h2>졸업 작품</h2>
+    </div>
+    <div class="py-5 text-center">
+        <h2>로그인</h2>
+    </div>
+    <h4 class="mb-3">로그인 정보 입력</h4>
+    <form action = "@{/loginProc}" th:action th:object="${loginForm}" method="post">
+        <div class="mb-3">
+            <label for="inputLoginId" class="form-label">아이디</label>
+            <input type="text" class="form-control" id="inputLoginId" th:field="*{loginId}" placeholder="ID">
+            <div class="field-error" th:errors="*{loginId}"></div>
+        </div>
+        <div class="mb-3">
+            <label for="inputPassword5" class="form-label">비밀번호</label>
+            <input type="password" id="inputPassword5" class="form-control" th:field="*{password}" placeholder="Password" aria-describedby="passwordHelpBlock">
+            <div class="field-error" th:errors="*{password}"></div>
+        </div>
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+        </div>
+    <hr class="my-4">
+    <div class="row">
+        <div class="col m">
+            <button type="submit" class="w-100 btn btn-primary btn-lg">로그인</button>
+        </div>
+        <div class="col m">
+            <button type="button"
+                class="w-100 btn btn-secondary btn-lg"
+                onclick="location.href='home.html'"
+                th:onclick="|location.href='@{/}'|">취소</button>
+        </div>
+    </div>
+    </form>
+  </div>
+</body>
+</html>

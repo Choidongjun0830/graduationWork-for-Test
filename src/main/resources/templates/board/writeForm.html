@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <link th:href="@{/css/bootstrap.min.css}"
+        href="../css/bootstrap.min.css" rel="stylesheet">
+  <title>Mat & Mut</title>
+</head>
+<body>
+<div class="container" style="max-width: xl">
+  <div class="py-5 text-center">
+    <h2>Mat & Mut</h2>
+  </div>
+  <div class="py-5 text-center">
+    <h2>글쓰기</h2>
+  </div>
+  <form action = "" th:action th:object="${post}" method="post">
+
+    <select class="form-select" aria-label="Default select example" th:field="*{header}">
+      <option value="0" selected>Header</option>
+      <option value="공지">공지</option>
+      <option value="질문">질문</option>
+      <option value="잡담">잡담</option>
+    </select>
+    <div class="mb-3">
+      <label for="title" class="form-label"></label>
+      <input type="text" class="form-control" id="title" th:field="*{title}"
+             th:errorclass="field-error" placeholder="제목">
+      <div class="field-error" th:errors="*{title}">제목 오류</div>
+    </div>
+
+    <div class="mb-3">
+
+      <label for="contents" class="form-label"></label>
+      <textarea class="form-control" id="contents" rows="7" th:field="*{contents}"
+                th:errorclass="field-error" placeholder="내용"></textarea>
+      <div class="field-error" th:errors="*{contents}">내용 오류</div>
+    </div>
+    <hr class="my-4">
+    <div class="row">
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button type="submit" class="btn btn-primary me-md-2" >작성 완료</button>
+        <button class="btn btn-primary"
+                onclick="location.href='boardList.html'"
+                th:onclick="|location.href='@{/board}'|"
+                type="button">취소</button>
+      </div>
+    </div>
+  </form>
+</div>
+</body>
+</html>

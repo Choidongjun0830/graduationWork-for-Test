@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+  <title>졸업 작품</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <style>
+    div.m {
+      margin: 20px 0px 0px 0px;
+    }
+    .field-error {
+      border-color: #dc3545;
+      color: #dc3545;
+    }
+  </style>
+</head>
+<body>
+<div class="container" style="max-width: 600px">
+  <div class="py-5 text-center">
+    <h2>가상 화폐 지갑 수정</h2>
+  </div>
+  <h4 class="mb-3">가상 화폐 지갑 입력</h4>
+  <form action = "" th:action th:object="${walletUpdateForm}" method="post" novalidate>
+    <div class="mb-3">
+      <label for="inputWalletAccount" class="form-label">가상 화폐 지갑</label>
+      <input type="text" id="inputWalletAccount" class="form-control" aria-describedby="inputWalletAccountBlock"
+             th:field="*{accountAddress}" th:errorclass="field-error" placeholder="가상 화폐 지갑">
+      <div class="field-error" th:errors="*{accountAddress}"></div>
+    </div>
+    <hr class="my-4">
+    <div class="row">
+      <div class="col m">
+        <button type="submit" class="w-100 btn btn-primary btn-lg">수정 완료</button>
+      </div>
+      <div class="col m">
+        <button type="button"
+                class="w-100 btn btn-secondary btn-lg"
+                onclick="location.href='home.html'"
+                th:onclick="|location.href='@{/user/info}'|">취소</button>
+      </div>
+    </div>
+  </form>
+</div>
+</body>
+</html>

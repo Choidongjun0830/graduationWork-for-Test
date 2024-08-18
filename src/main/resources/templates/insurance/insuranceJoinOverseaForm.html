@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>졸업 작품</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div class="container" style="max-width: 600px">
+    <div class="py-5 text-center">
+        <h2>해외 여행 보험 신청</h2>
+    </div>
+    <form th:action="@{/insurance/overseasSubmit}" method="post">
+        <div class="mb-3">
+            <label for="startDate" class="form-label">보험 시작 날짜</label>
+            <input type="date" class="form-control" id="startDate" name="startDate" required>
+        </div>
+        <div class="mb-3">
+            <label for="endDate" class="form-label">보험 종료 날짜</label>
+            <input type="date" class="form-control" id="endDate" name="endDate" required>
+        </div>
+        <div class="mb-3">
+            <label for="departureDate" class="form-label">출발 날짜</label>
+            <input type="date" class="form-control" id="departureDate" name="departureDate" required>
+        </div>
+        <div class="mb-3">
+            <label for="travelRegion" class="form-label">여행 지역</label>
+            <select class="form-select" id="travelRegion" name="travelRegion" required>
+                <option value="ASIA">아시아</option>
+                <option value="EUROPE">유럽</option>
+                <option value="NORTH_AMERICA">북아메리카</option>
+                <option value="SOUTH_AMERICA">남아메리카</option>
+                <option value="AFRICA">아프리카</option>
+                <option value="OCEANIA">오세아니아</option>
+            </select>
+        </div>
+        <div class="d-grid gap-2">
+            <button class="btn btn-primary btn-lg" type="submit">보험 신청</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

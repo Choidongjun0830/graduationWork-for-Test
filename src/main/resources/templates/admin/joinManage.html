@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>Domestic Insurance Specs</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        .card:hover {
+            border: 2px solid #007bff;
+            background-color: #f8f9fa;
+            cursor: pointer;
+        }
+        .stretched-link::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            z-index: 1;
+        }
+        .btn-email {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container" style="max-width: 80%">
+    <div class="py-5 text-center">
+        <h2>보험 가입 정보</h2>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center position-relative">
+                    <h5 class="card-title" th:text="${userInsurance?.insurance?.name + ' - ' + userInsurance?.user?.username}">Insurance Name - User Name</h5>
+                    <p class="card-text">이메일: <span th:text="${userInsurance?.user?.email}">Email</span></p>
+                    <p class="card-text">가입일: <span th:text="${userInsurance?.registerDate}">RegisterDate</span></p>
+                    <p class="card-text">시작일: <span th:text="${userInsurance?.startDate}">StartDate</span></p>
+                    <p class="card-text">만료일: <span th:text="${userInsurance?.endDate}">EndDate</span></p>
+                    <p class="card-text">가입 보험료: <span th:text="${userInsurance?.registerPrice}">RegisterPrice</span></p>
+                    <hr class="my-4">
+                    <form th:action="@{/insurance/admin/sendJoinMail}" method="post">
+                        <input type="hidden" name="userInsuranceId" th:value="${userInsurance?.id}"/>
+                        <button type="submit" class="btn btn-primary btn-email">이메일 전송</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

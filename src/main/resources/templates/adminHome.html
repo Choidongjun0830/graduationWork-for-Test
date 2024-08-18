@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>졸업 작품</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div class="container" style="max-width: 30%">
+    <div class="py-5 text-center">
+        <h2>관리자 홈</h2>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button class="w-100 btn btn-primary btn-lg" type="button"
+                    th:onclick="|location.href='@{/insurance/admin/compensation/requests?page=0}'|">
+                보상 신청 관리
+            </button>
+        </div>
+    </div>
+</div> <!-- /container -->
+<div class="container" style="max-width: 60%">
+    <hr class="my-4">
+    <div class="py-5 text-center">
+        <h2>보험 가입 리스트</h2>
+    </div>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>보험명</th>
+            <th>이름</th>
+            <th>시작일</th>
+            <th>만료일</th>
+            <th>가입료</th>
+            <th>보상 상태</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="userInsurance : ${userInsurances}">
+            <td><a th:href="@{|/user/insurances/${userInsurance.id}|}" th:text="${userInsurance.id}">ID</a></td>
+            <td th:text="${userInsurance.insurance.name}">보험명</td>
+            <td th:text="${userInsurance.user.username}">이름</td>
+            <td th:text="${userInsurance.startDate}">시작일</td>
+            <td th:text="${userInsurance.endDate}">만료일</td>
+            <td th:text="${userInsurance.registerPrice}">가입료</td>
+            <td>
+                <span th:if="${userInsurance.compensationStatus.name() == 'NOT_SUBMITTED'}" >미신청</span>
+                <span th:if="${userInsurance.compensationStatus.name() == 'IMPOSSIBLE'}" >신청 불가</span>
+                <span th:if="${userInsurance.compensationStatus.name() == 'COMPENSATING'}" >보상 진행중</span>
+                <span th:if="${userInsurance.compensationStatus.name() == 'COMPENSATED'}" >보상 완료</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div> <!-- /container -->
+</body>
+</html>

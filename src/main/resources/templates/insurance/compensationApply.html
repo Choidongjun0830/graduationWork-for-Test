@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+  <title>보험 가입 성공</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <style>
+    .form-control, .btn {
+      height: calc(2.25rem + 2px);
+    }
+    .field-error {
+      color: #dc3545;
+      margin-top: 0.25rem;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+<div class="container" style="max-width: 60%">
+  <div class="py-5 text-center">
+    <h2>보험 보상 신청</h2>
+  </div>
+  <form action = "" th:action="@{/insurance/compensation/apply(userInsuranceId=${userInsurance.id})}" th:object="${form}" method="post" novalidate>
+    <input type="hidden" name="userInsuranceId" th:value="${userInsurance.id}" />
+    <div class="mb-3">
+      <label for="email" class="form-label">이메일</label>
+      <input type="text" class="form-control" id="email" th:field="*{email}" th:value="*{email}" th:errorclass="field-error" placeholder="이메일">
+      <div class="field-error" th:errors="*{email}">이메일 오류</div>
+    </div>
+    <div class="mb-3">
+      <label for="reason" class="form-label">신청 사유</label>
+      <select class="form-select" id = "reason" th:field="*{reason}" th:errorclass="field-error">
+        <option value="" selected>신청 사유</option>
+        <option th:each="entry: ${coverageMap != null ? coverageMap.entrySet() : {}}" th:value="${entry.key}" th:text="${entry.key}"></option>
+      </select>
+      <div class="field-error" th:errors="*{reason}">신청 사유 오류</div>
+    </div>
+    <div class="mb-3">
+      <label for="occurrenceDate" class="form-label">발생 일자</label>
+      <input type="date" class="form-control" id="occurrenceDate" th:field="*{occurrenceDate}"
+             th:errorclass="field-error" placeholder="발생 일자">
+      <div class="field-error" th:errors="*{occurrenceDate}">발생 일자 오류</div>
+    </div>
+    <hr class="my-4">
+    <div class="row">
+      <div class="col m">
+        <button type="submit" class="w-100 btn btn-primary btn-lg">보상 신청</button>
+      </div>
+      <div class="col m">
+        <button type="button"
+                class="w-100 btn btn-secondary btn-lg"
+                onclick="location.href='home.html'"
+                th:onclick="|location.href='@{/}'|">취소</button>
+      </div>
+    </div>
+  </form>
+</div>
+</body>
+</html>

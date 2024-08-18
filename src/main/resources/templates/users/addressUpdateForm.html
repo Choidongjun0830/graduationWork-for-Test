@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+  <title>졸업 작품</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <style>
+    div.m {
+      margin: 20px 0px 0px 0px;
+    }
+    .field-error {
+      border-color: #dc3545;
+      color: #dc3545;
+    }
+  </style>
+</head>
+<body>
+<div class="container" style="max-width: 600px">
+  <div class="py-5 text-center">
+    <h2>주소 변경</h2>
+  </div>
+  <h4 class="mb-3">주소 정보 입력</h4>
+  <form action = "" th:action th:object="${addressUpdateForm}" method="post">
+<!--    <div th:if="${#fields.hasGlobalErrors()}">-->
+<!--      <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>-->
+<!--    </div>-->
+    <div class="mb-3">
+      <label class="form-label">주소</label>
+      <div class="input-group mb-3">
+        <input type="text" id="inputZipCode" class="form-control"
+               th:field="*{zipCode}" th:errorclass="field-error" placeholder="우편번호" readonly>
+        <button type="button" class="btn btn-primary" onclick="execDaumPostcode()">주소 찾기</button>
+      </div>
+      <div class="field-error" th:if="${#fields.hasErrors('zipCode')}" th:errors="*{zipCode}"></div>
+      <div class="mt-2">
+        <input type="text" id="inputRoadAddress" class="form-control"
+               th:field="*{roadAddress}" th:errorclass="field-error" placeholder="도로명 주소" readonly>
+        <div class="field-error" th:if="${#fields.hasErrors('roadAddress')}" th:errors="*{roadAddress}"></div>
+      </div>
+      <div class="mt-2">
+        <input type="text" id="inputDetailAddress" class="form-control"
+               th:field="*{detailAddress}" th:errorclass="field-error" placeholder="상세 주소">
+        <div class="field-error" th:if="${#fields.hasErrors('detailAddress')}" th:errors="*{detailAddress}"></div>
+      </div>
+    </div>
+
+    <hr class="my-4">
+    <div class="row">
+      <div class="col m">
+        <button type="submit" class="w-100 btn btn-primary btn-lg">수정 완료</button>
+      </div>
+      <div class="col m">
+        <button type="button"
+                class="w-100 btn btn-secondary btn-lg"
+                onclick="location.href='home.html'"
+                th:onclick="|location.href='@{/userInfo}'|">취소</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+  function execDaumPostcode() {
+    new daum.Postcode({
+      oncomplete: function(data) {
+        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+        // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+        var addr = '';
+
+        if (data.userSelectedType === 'R') {
+          addr = data.roadAddress;
+        } else {
+          addr = data.jibunAddress;
+        }
+
+        // 우편번호와 주소 정보를 해당 필드에 넣는다.
+        document.getElementById('inputZipCode').value = data.zonecode;
+        document.getElementById("inputRoadAddress").value = addr;
+        // 커서를 상세주소 필드로 이동한다.
+        document.getElementById("inputDetailAddress").focus();
+      }
+    }).open();
+  }
+</script>
+</body>
+</html>

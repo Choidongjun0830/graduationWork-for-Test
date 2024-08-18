@@ -1,0 +1,89 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Whale/3.27.254.15 Safari/537.36" version="24.7.7">
+  <diagram id="l9pmMyMsf4rGCg7w05i2" name="페이지-1">
+    <mxGraphModel dx="2849" dy="1481" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="node6" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;flight&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;&lt;b&gt; departure_date: &lt;/b&gt;datetime(6)&lt;br&gt;&lt;b&gt; departure:&lt;/b&gt; varchar(255)&lt;br&gt;&lt;b&gt; destination:&lt;/b&gt; varchar(255)&lt;br&gt;&lt;b&gt; flight_num:&lt;/b&gt; varchar(255)&lt;br&gt;&lt;b&gt; status:&lt;/b&gt; enum(&#39;cancelled&#39;, &#39;delayed&#39;, &#39;scheduled&#39;)&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;&lt;b&gt; flight_id:&lt;/b&gt; bigint(20) &lt;b&gt;&lt;font color=&quot;#ff6666&quot;&gt;PK&lt;/font&gt;&lt;/b&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="350" y="410" width="309" height="185" as="geometry" />
+        </mxCell>
+        <mxCell id="node4" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;insurance&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;&lt;b&gt; insurance_type: &lt;/b&gt;tinyint(4)&lt;br&gt;&lt;b&gt; premium:&lt;/b&gt; int(11)&lt;br&gt;&lt;b&gt; formatted_premium:&lt;/b&gt; varchar(255)&lt;br&gt;&lt;b&gt; name:&lt;/b&gt; varchar(255)&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;&lt;b&gt; insurance_id:&lt;/b&gt; bigint(20) &lt;b&gt;&lt;font color=&quot;#ff6666&quot;&gt;PK&lt;/font&gt;&lt;/b&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="511" y="-70" width="220" height="161" as="geometry" />
+        </mxCell>
+        <mxCell id="node3" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;insurance_coverage_details&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;&lt;b&gt; insurance_insurance_id: &lt;/b&gt;bigint(20)&lt;br&gt;&lt;b&gt; coverage_details:&lt;/b&gt; varchar(255)&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="511" y="250" width="224" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="node2" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;transactions&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;&lt;b&gt; timestamp:&lt;/b&gt; bigint(20)&lt;br&gt;&lt;b&gt; user_user_id:&lt;/b&gt; bigint(20)&lt;br&gt;&lt;b&gt; from_address:&lt;/b&gt; varchar(255)&lt;br&gt;&lt;b&gt; hash:&lt;/b&gt; varchar(255)&lt;br&gt;&lt;b&gt; name:&lt;/b&gt; varchar(255)&lt;br&gt;&lt;b&gt; to_address:&lt;/b&gt; varchar(255)&lt;br&gt;&lt;b&gt; value:&lt;/b&gt; varchar(255)&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;&lt;b&gt; transaction_id:&lt;/b&gt; bigint(20) &lt;b&gt;&lt;font color=&quot;#ff6666&quot;&gt;PK&lt;/font&gt;&lt;/b&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="-350" y="362" width="196" height="233" as="geometry" />
+        </mxCell>
+        <mxCell id="node0" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;upload_file&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;&lt;b&gt; user_insurance_id:&lt;/b&gt; bigint(20)&lt;br&gt;&lt;b&gt; store_file_name:&lt;/b&gt; varchar(255)&lt;br&gt;&lt;b&gt; upload_file_name:&lt;/b&gt; varchar(255)&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;&lt;b&gt; file_id:&lt;/b&gt; bigint(20) &lt;b&gt;&lt;font color=&quot;#ff6666&quot;&gt;PK&lt;/font&gt;&lt;/b&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="-50" y="450" width="250" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="node1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;user&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;&lt;b&gt; join_date: &lt;/b&gt;date&lt;br&gt;&lt;b&gt; detail_address:&lt;/b&gt; varchar(255)&lt;br&gt;&lt;b&gt; email:&lt;/b&gt; varchar(255)&lt;br&gt;&lt;b&gt; login_id:&lt;/b&gt; varchar(255)&lt;br&gt;&lt;b&gt; password:&lt;/b&gt; varchar(255)&lt;br&gt;&lt;b&gt; road_address:&lt;/b&gt; varchar(255)&lt;br&gt;&lt;b&gt; role:&lt;/b&gt; varchar(255)&lt;br&gt;&lt;b&gt; username:&lt;/b&gt; varchar(255)&lt;br&gt;&lt;b&gt; wallet_address:&lt;/b&gt; varchar(255)&lt;br&gt;&lt;b&gt; zip_code:&lt;/b&gt; varchar(255)&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; line-height: 1.6;&quot;&gt;&lt;b&gt; user_id:&lt;/b&gt; bigint(20)&amp;nbsp; &lt;b&gt;&lt;font color=&quot;#ff6666&quot;&gt;PK&lt;/font&gt;&lt;/b&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="-560" y="-134" width="191" height="305" as="geometry" />
+        </mxCell>
+        <mxCell id="node5" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;user_insurance&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;&lt;b style=&quot;background-color: initial;&quot;&gt;apply_date:&lt;/b&gt;&lt;span style=&quot;background-color: initial;&quot;&gt; date&lt;/span&gt;&lt;br&gt;&lt;b style=&quot;background-color: initial;&quot;&gt;end_date: &lt;/b&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;date&lt;/span&gt;&lt;br&gt;&lt;b style=&quot;background-color: initial;&quot;&gt;occurrence_date:&lt;/b&gt;&lt;span style=&quot;background-color: initial;&quot;&gt; date&lt;/span&gt;&lt;br&gt;&lt;b style=&quot;background-color: initial;&quot;&gt;register_date:&lt;/b&gt;&lt;span style=&quot;background-color: initial;&quot;&gt; date&lt;/span&gt;&lt;br&gt;&lt;b style=&quot;background-color: initial;&quot;&gt;start_date:&lt;/b&gt;&lt;span style=&quot;background-color: initial;&quot;&gt; date&lt;/span&gt;&lt;br&gt;&lt;b style=&quot;background-color: initial;&quot;&gt;insurance_id:&lt;/b&gt;&lt;span style=&quot;background-color: initial;&quot;&gt; bigint(20)&lt;/span&gt;&lt;br&gt;&lt;b style=&quot;background-color: initial;&quot;&gt;user_id:&lt;/b&gt;&lt;span style=&quot;background-color: initial;&quot;&gt; bigint(20)&lt;/span&gt;&lt;br&gt;&lt;b style=&quot;background-color: initial;&quot;&gt;compensation_amount:&lt;/b&gt;&lt;span style=&quot;background-color: initial;&quot;&gt; varchar(255)&lt;/span&gt;&lt;br&gt;&lt;b style=&quot;background-color: initial;&quot;&gt;ether_register_price:&lt;/b&gt;&lt;span style=&quot;background-color: initial;&quot;&gt; varchar(255)&lt;/span&gt;&lt;br&gt;&lt;b style=&quot;background-color: initial;&quot;&gt;reason: &lt;/b&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;varchar(255)&lt;/span&gt;&lt;br&gt;&lt;b style=&quot;background-color: initial;&quot;&gt;register_price:&lt;/b&gt;&lt;span style=&quot;background-color: initial;&quot;&gt; varchar(255)&lt;/span&gt;&lt;br&gt;&lt;b style=&quot;background-color: initial;&quot;&gt;compensation_option:&lt;/b&gt;&lt;span style=&quot;background-color: initial;&quot;&gt; enum(&#39;option_auto&#39;, &#39;option_email&#39;, &#39;option_not_applied&#39;)&lt;/span&gt;&lt;br&gt;&lt;b style=&quot;background-color: initial;&quot;&gt;compensation_status:&lt;/b&gt;&lt;span style=&quot;background-color: initial;&quot;&gt; enum(&#39;compensated&#39;, &#39;compensating&#39;, &#39;impossible&#39;, &#39;not_submitted&#39;)&lt;/span&gt;&lt;br&gt;&lt;b style=&quot;background-color: initial;&quot;&gt;status:&lt;/b&gt;&lt;span style=&quot;background-color: initial;&quot;&gt; enum(&#39;cancelled&#39;, &#39;complete&#39;, &#39;joined&#39;, &#39;waiting_join&#39;)&lt;/span&gt;&lt;br&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;&lt;b&gt; uses_insurance_id:&lt;/b&gt; bigint(20) &lt;font color=&quot;#ff6666&quot;&gt;&lt;b&gt;PK&lt;/b&gt;&lt;/font&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="-210" y="-180" width="580" height="400" as="geometry" />
+        </mxCell>
+        <mxCell id="edge3" value="" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;labelBackgroundColor=none;fontColor=default;" parent="1" source="node3" target="node4" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="620" y="250" />
+              <mxPoint x="620" y="104" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label20" value="insurance_id" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=top;fontSize=14;labelBackgroundColor=none;" parent="edge3" vertex="1" connectable="0">
+          <mxGeometry x="630" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="edge0" value="" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;exitX=0.000;exitY=0.500;exitDx=0;exitDy=0;labelBackgroundColor=none;fontColor=default;entryX=0.471;entryY=0.997;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="node2" target="node1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-470" y="489" />
+            </Array>
+            <mxPoint x="-470" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label2" value="user_id" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=top;spacing=3;fontSize=14;labelBackgroundColor=none;" parent="edge0" vertex="1" connectable="0">
+          <mxGeometry x="-450" y="310" as="geometry">
+            <mxPoint x="-11" y="-4" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge2" value="" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;labelBackgroundColor=none;fontColor=default;entryX=0.486;entryY=0.999;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" target="node5" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="72" y="450" />
+            </Array>
+            <mxPoint x="70" y="450" as="sourcePoint" />
+            <mxPoint x="71" y="230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label14" value="user_insurance_id" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=top;fontSize=14;labelBackgroundColor=none;" parent="edge2" vertex="1" connectable="0">
+          <mxGeometry x="80" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1" value="" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=-0.002;entryY=0.549;entryDx=0;entryDy=0;labelBackgroundColor=none;fontColor=default;entryPerimeter=0;" parent="1" source="node5" target="node4" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="500" y="20" />
+              <mxPoint x="500" y="18" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label8" value="insurance_id" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=top;fontSize=14;labelBackgroundColor=none;" parent="edge1" vertex="1" connectable="0">
+          <mxGeometry x="400" y="-10" as="geometry" />
+        </mxCell>
+        <mxCell id="edge4" value="" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;entryX=1.000;entryY=0.500;entryDx=0;entryDy=0;labelBackgroundColor=none;fontColor=default;" parent="1" target="node1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-210" y="18" />
+            </Array>
+            <mxPoint x="-210" y="20" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label26" value="user_id" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=top;labelBackgroundColor=none;fontSize=14;" parent="edge4" vertex="1" connectable="0">
+          <mxGeometry x="-310" y="-10" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

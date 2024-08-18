@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>졸업 작품</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div class="container" style="max-width: 60%">
+    <div class="py-5 text-center">
+        <h2>보험 신청 관리</h2>
+    </div>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>이름</th>
+            <th>항공편</th>
+            <th>신청 타입</th>
+            <th>발생 날짜</th>
+            <th>신청 날짜</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="insurance : ${insurances}">
+            <td><a href="postView.html" th:href="@{|/board/${insurance.id}|}" th:text="${insurance.id}">ID</a></td>
+            <td><a href="postView.html" th:href="@{|/board/${insurance.id}|}">공지</a></td>
+            <td><a href="postView.html" th:href="@{|/board/${insurance.id}|}" th:text="${insurance.status}"></a></td>
+            <td th:text="${insurance.user}"></td>
+            <td th:text="${insurance.startDate}"></td>
+            <td th:text="${insurance.endDate}"></td>
+        </tr>
+        </tbody>
+    </table>
+<!--    <hr class="my-4">-->
+<!--    <button type="button" class="btn btn-primary pull-right" onclick="location.href='/boardList/write'">글쓰기</button>-->
+</div>
+</body>
+</html>
