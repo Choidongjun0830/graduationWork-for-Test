@@ -5,6 +5,24 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
+<div class="bg">
+    <div class="search-container">
+        <h2>항공기 지연 보상 간단 조회</h2>
+        <form th:action="@{/}" th:object="${delayForm}" method="post" novalidate>
+            <div>
+                <label for="flightNumber" class="form-label">항공기 번호</label>
+                <input type="text" class="form-control" id="flightNumber" name="flightNumber" th:field="*{flightNum}" required>
+                <div class="field-error" th:errors="*{flightNum}"></div>
+            </div>
+            <div>
+                <label for="departureDate" class="form-label">예정 출발 날짜</label>
+                <input type="datetime-local" class="form-control" id="departureDate" name="departureDate" th:field="*{departureDate}" required>
+                <div class="field-error" th:errors="*{departureDate}"></div>
+            </div>
+            <button class="btn-primary btn-sm" type="submit">조회</button>
+        </form>
+    </div>
+</div>
 <div class="container" style="max-width: 80%">
     <div class="mt-4"></div>
     <div class="row">
@@ -21,23 +39,23 @@
             </button>
         </div>
     </div>
-    <hr class="my-4">
-    <div class="py-5 text-center">
-        <h2>간단 보상 조회</h2>
-    </div>
-    <form th:action="@{/}" th:object="${delayForm}" method="post" novalidate>
-        <div class="mb-3">
-            <label for="flightNumber" class="form-label">항공기 번호</label>
-            <input type="text" class="form-control" id="flightNumber" name="flightNumber" th:field="*{flightNum}" required>
-            <div class="field-error" th:errors="*{flightNum}"></div>
-        </div>
-        <div class="mb-3">
-            <label for="departureDate" class="form-label">예정 출발 날짜</label>
-            <input type="datetime-local" class="form-control" id="departureDate" name="departureDate" th:field="*{departureDate}" required>
-            <div class="field-error" th:errors="*{departureDate}"></div>
-        </div>
-        <button class="w-100 btn btn-primary btn-lg" type="submit">조회</button>
-    </form>
+<!--    <hr class="my-4">-->
+<!--    <div class="py-5 text-center">-->
+<!--        <h2>간단 보상 조회</h2>-->
+<!--    </div>-->
+<!--    <form th:action="@{/}" th:object="${delayForm}" method="post" novalidate>-->
+<!--        <div class="mb-3">-->
+<!--            <label for="flightNumber" class="form-label">항공기 번호</label>-->
+<!--            <input type="text" class="form-control" id="flightNumber" name="flightNumber" th:field="*{flightNum}" required>-->
+<!--            <div class="field-error" th:errors="*{flightNum}"></div>-->
+<!--        </div>-->
+<!--        <div class="mb-3">-->
+<!--            <label for="departureDate" class="form-label">예정 출발 날짜</label>-->
+<!--            <input type="datetime-local" class="form-control" id="departureDate" name="departureDate" th:field="*{departureDate}" required>-->
+<!--            <div class="field-error" th:errors="*{departureDate}"></div>-->
+<!--        </div>-->
+<!--        <button class="w-100 btn btn-primary btn-lg" type="submit">조회</button>-->
+<!--    </form>-->
 </div> <!-- /container -->
 </body>
 </html>

@@ -7,31 +7,91 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbit&display=swap" rel="stylesheet">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <style>
-        *{
+        * {
             font-family: "Orbit", sans-serif;
             font-weight: 400;
             font-style: normal;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body, html {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+        }
+        .bg {
+            background-image: url('/images/flight-image1.jpg');
+            width: 100%;
+            height: 60vh;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .search-container {
+            max-width: 500px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            margin-bottom: 40px;
+            text-align: center;
+            font-size: 15px;
+            color: #333;
+        }
+        .form-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+            color: #333;
+        }
+        .form-control {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 25px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .btn-primary {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-<div class="container" style="max-width: 60%">
-    <div class="py-5 text-center">
+<div class="bg">
+    <div class="search-container">
         <h2>항공기 지연 보상 간단 조회</h2>
+        <form th:action="@{/}" th:object="${delayForm}" method="post" novalidate>
+            <div>
+                <label for="flightNumber" class="form-label">항공기 번호</label>
+                <input type="text" class="form-control" id="flightNumber" name="flightNumber" th:field="*{flightNum}" required>
+                <div class="field-error" th:errors="*{flightNum}"></div>
+            </div>
+            <div>
+                <label for="departureDate" class="form-label">예정 출발 날짜</label>
+                <input type="datetime-local" class="form-control" id="departureDate" name="departureDate" th:field="*{departureDate}" required>
+                <div class="field-error" th:errors="*{departureDate}"></div>
+            </div>
+            <button class="btn-primary btn-sm" type="submit">조회</button>
+        </form>
     </div>
-    <form th:action="@{/}" th:object="${delayForm}" method="post" novalidate>
-        <div class="mb-3">
-            <label for="flightNumber" class="form-label">항공기 번호</label>
-            <input type="text" class="form-control" id="flightNumber" name="flightNumber" th:field="*{flightNum}" required>
-            <div class="field-error" th:errors="*{flightNum}"></div>
-        </div>
-        <div class="mb-3">
-            <label for="departureDate" class="form-label">예정 출발 날짜</label>
-            <input type="datetime-local" class="form-control" id="departureDate" name="departureDate" th:field="*{departureDate}" required>
-            <div class="field-error" th:errors="*{departureDate}"></div>
-        </div>
-        <button class="w-100 btn btn-primary btn-lg" type="submit">조회</button>
-    </form>
 </div>
 </body>
 </html>
