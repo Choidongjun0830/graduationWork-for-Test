@@ -53,7 +53,7 @@
                 <th scope="col">보험 시작 날짜</th>
                 <th scope="col">보험 만료일</th>
                 <th scope="col">가입료 (원)</th>
-                <th scope="col">가입료 (이더리움)</th>
+                <th scope="col">가입료 (Eth)</th>
                 <th scope="col">보험 상태</th>
                 <th scope="col">보상 상태</th>
                 <th scope="col">보상 신청</th>
@@ -70,7 +70,7 @@
                 <td th:text="${userInsurance?.startDate}">시작 날짜</td>
                 <td th:text="${userInsurance?.endDate}">만료일</td>
                 <td th:text="${userInsurance?.registerPrice}">가입료 (원)</td>
-                <td th:text="${userInsurance?.etherRegisterPrice}">가입료 (이더리움)</td>
+                <td th:text="${userInsurance?.etherRegisterPrice}">가입료 (Eth)</td>
                 <td>
                     <span th:if="${userInsurance?.status?.name() == 'WAITING_JOIN'}" class="clickable-status" onclick="showDepositAddress()">입금 대기중</span>
                     <span th:if="${userInsurance?.status?.name() == 'JOINED'}">가입 완료</span>
