@@ -4,6 +4,7 @@ import graduationWork.server.domain.Transactions;
 import graduationWork.server.domain.User;
 import graduationWork.server.domain.UserInsurance;
 import graduationWork.server.dto.EtherPayReceipt;
+import graduationWork.server.ether.EtherscanApiClient;
 import graduationWork.server.ether.UpbitApiClient;
 import graduationWork.server.ether.Web3jClient;
 import graduationWork.server.service.TransactionsService;
@@ -34,6 +35,7 @@ public class SmartContractController {
     private final UpbitApiClient upbitApiClient;
     private final UserInsuranceService userInsuranceService;
     private final Web3jClient web3jClient;
+    private final EtherscanApiClient etherscanApiClient;
 
     @Value("${etherscan.contract.address}")
     private String contractAddress;
@@ -47,7 +49,10 @@ public class SmartContractController {
         UserInsurance userInsurance = userInsuranceService.findOne(userInsuranceId);
         List<Transactions> userTransactions = transactionsService.findByFromAndValue(userWalletAddress, userInsurance.getEtherRegisterPrice());
         Transactions transaction = userTransactions.get(0);
+
+        String receiptUrl = etherscanApiClient.makeReceiptUrl(transaction.getHash());
         model.addAttribute("transaction", transaction);
+        model.addAttribute("receiptUrl", receiptUrl);
         return "ether/depositReceipt";
     }
 

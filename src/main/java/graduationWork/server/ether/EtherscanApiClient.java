@@ -142,4 +142,8 @@ public class EtherscanApiClient {
         etherTransaction.setValue(transaction.get("value").asText());
         return etherTransaction;
     }
+
+    public String makeReceiptUrl(String hash) {
+        return "https://sepolia.etherscan.io/tx/" + hash;
+    }
 }

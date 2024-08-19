@@ -153,6 +153,34 @@
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
+    .input-group-custom {
+      display: flex;
+      align-items: center; /* 버튼과 입력 필드가 동일한 높이로 정렬되도록 설정 */
+      height: 38px;
+      margin-bottom: 5px;
+    }
+    .group-form-control {
+      flex: 3;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      height: 100%;
+    }
+    .group-btn-primary {
+      flex: 1;
+      padding: 10px;
+      background-color: #007bff;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
     .field-error {
       font-size: 14px;
       color: red;
@@ -160,6 +188,14 @@
       line-height: 1.2em;
       display: block;
     }
+    .custom-btn {
+      padding: 5px 10px; /* 버튼 크기를 줄이기 위해 패딩 조정 */
+      font-size: 14px; /* 텍스트 크기를 줄여 버튼 크기를 더 줄임 */
+      width: auto; /* 버튼의 너비를 자동으로 조정 */
+      min-width: 100px; /* 최소 너비를 설정하여 너무 작아지지 않도록 */
+      max-width: 170px; /* 최대 너비를 설정하여 버튼이 너무 길어지지 않도록 */
+    }
+
   </style>
   <title>졸업 작품</title>
 </head>
@@ -168,7 +204,7 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-white">
     <div class="container-fluid">
       <a class="navbar-brand" th:href="@{/}">
-        <img src="/images/travace-logo2.png" alt="Travace Logo" style="height: 70px;">
+        <img src="/images/travee-logo2-bg.png" alt="Travace Logo" style="height: 70px;">
       </a>
       <div class="collapse navbar-collapse justify-content-end d-flex align-items-center">
         <ul class="navbar-nav d-flex align-items-center">
