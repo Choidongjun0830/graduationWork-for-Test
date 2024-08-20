@@ -57,7 +57,7 @@
                 <th scope="col">보험 상태</th>
                 <th scope="col">보상 상태</th>
                 <th scope="col">보상 신청</th>
-                <th scope="col"> </th>
+                <th scope="col">상세 정보</th>
             </tr>
             </thead>
             <tbody>
@@ -86,14 +86,14 @@
                     <form th:action="@{/insurance/compensation/apply}" method="get"
                           th:if="${userInsurance?.status?.name() != 'WAITING_JOIN' and userInsurance?.compensationStatus?.name() == 'NOT_SUBMITTED'}">
                         <input type="hidden" name="userInsuranceId" th:value="${userInsurance?.id}" />
-                        <button class="btn btn-primary apply-btn" type="submit">보상 신청</button>
+                        <button class="btn apply-btn" type="submit">보상 신청</button>
                     </form>
                     <span th:if="${userInsurance?.compensationStatus?.name() != 'NOT_SUBMITTED'}">신청 완료</span>
                     <span th:if="${userInsurance?.status?.name() == 'WAITING_JOIN'}">보상 미신청</span>
                 </td>
                 <td>
                     <span>
-                        <a th:href="@{/user/insurances/{insuranceId}(insuranceId=${userInsurance?.id})}" class="btn btn-info">상세 정보</a>
+                        <a th:href="@{/user/insurances/{insuranceId}(insuranceId=${userInsurance?.id})}" class="btn apply-btn">상세 정보</a>
                     </span>
                 </td>
             </tr>

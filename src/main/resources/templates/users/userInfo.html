@@ -15,8 +15,8 @@
     </style>
 </head>
 <body>
-<div class="container" style="max-width: 60%">
-    <div class="py-5 text-center">
+<div class="container" style="max-width: 35%">
+    <div class="py-3 text-center">
         <h2>내 정보</h2>
     </div>
     <div>
@@ -53,19 +53,19 @@
     </div>
     <hr class="my-4">
     <div class="button-row">
-        <button class="btn btn-primary" 
+        <button class="btn btn-row"
                 th:onclick="|location.href='@{/user/passwordUpdate}'|"
                 type="button">비밀번호 변경
         </button>
-        <button class="btn btn-primary"
+        <button class="btn btn-row"
                 th:onclick="|location.href='@{/user/addressUpdate}'|"
                 type="button">주소 변경
         </button>
-        <button class="btn btn-primary"
+        <button class="btn btn-row"
                 th:onclick="|location.href='@{/user/walletAccountUpdate}'|"
                 type="button">가상 화폐 지갑 수정
         </button>
-        <button class="btn btn-primary"
+        <button class="btn btn-row"
                 th:onclick="|location.href='@{/user/insurances}'|"
                 type="button">가입한 보험 리스트
         </button>

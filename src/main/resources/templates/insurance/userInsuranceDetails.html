@@ -96,18 +96,20 @@
             </ul>
         </div>
     </div>
-    <div class="d-flex justify-content-end">
+    <div class="d-flex justify-content-end mt-4">
         <form th:action="@{/user/insurances/{id}/compensation/receipt(id=${userInsurance.id})}" method="get"
               th:if="${userInsurance?.status?.name() != 'WAITING_JOIN' and userInsurance?.compensationStatus?.name() == 'COMPENSATED'}" class="me-2">
             <input type="hidden" name="userInsuranceId" th:value="${userInsurance?.id}" />
-            <button class="btn btn-primary apply-btn" type="submit">보험 보상 영수증</button>
+            <button class="btn btn-row" type="submit">보험 보상 영수증</button>
         </form>
         <form th:action="@{/user/insurances/{id}/deposit/receipt(id=${userInsurance.id})}" method="get"
               th:if="${userInsurance?.status?.name() != 'WAITING_JOIN'}" class="me-2">
             <input type="hidden" name="userInsuranceId" th:value="${userInsurance?.id}" />
-            <button class="btn btn-primary apply-btn" type="submit">가입료 입금 영수증</button>
+            <button class="btn btn-row" type="submit">가입료 입금 영수증</button>
         </form>
-        <button class="btn btn-primary" th:onclick="|location.href='@{/user/insurances}'|">돌아가기</button>
+        <a class="navbar-brand" th:href="@{/user/info}">
+            <img src="/images/return-btn-removebg-preview.png" alt="return-logo" style="height: 45px;">
+        </a>
     </div>
 </div>
 </body>
