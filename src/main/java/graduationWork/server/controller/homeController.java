@@ -75,7 +75,8 @@ public class homeController {
     @GetMapping("/searchResult")
     public String search(@RequestParam Boolean result,
                          @RequestParam(required = false) Long flightId,
-                         Model model, HttpSession session) {
+                         Model model,
+                         @SessionAttribute(name = SessionConst.LOGIN_USER, required = false) User loginUser) {
 
         FlightSearchResult searchResult = new FlightSearchResult();
         searchResult.setResult(result);
@@ -100,8 +101,10 @@ public class homeController {
             searchResult.setStatus(findFlight.getStatus());
             searchResult.setSearchResult(search);
         }
+        Boolean noneLoginFlag = loginUser == null;
 
         model.addAttribute("searchResult", searchResult);
+        model.addAttribute("noneLoginFlag", noneLoginFlag);
         return "insurance/searchResult";
     }
 

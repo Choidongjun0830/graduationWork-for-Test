@@ -75,23 +75,55 @@
     </style>
 </head>
 <body>
-<div class="bg">
-    <div class="search-container">
-        <h2>항공기 지연 보상 간단 조회</h2>
-        <form th:action="@{/}" th:object="${delayForm}" method="post" novalidate>
-            <div>
-                <label for="flightNumber" class="form-label">항공기 번호</label>
-                <input type="text" class="form-control" id="flightNumber" name="flightNumber" th:field="*{flightNum}" required>
-                <div class="field-error" th:errors="*{flightNum}"></div>
-            </div>
-            <div>
-                <label for="departureDate" class="form-label">예정 출발 날짜</label>
-                <input type="datetime-local" class="form-control" id="departureDate" name="departureDate" th:field="*{departureDate}" required>
-                <div class="field-error" th:errors="*{departureDate}"></div>
-            </div>
-            <button class="btn-primary btn-sm" type="submit">조회</button>
-        </form>
+    <div class="bg">
+        <div class="search-container">
+            <h2>항공편 지연, 취소 보상 조회</h2>
+            <form th:action="@{/}" th:object="${delayForm}" method="post" novalidate>
+                <div>
+                    <label for="flightNumber" class="form-label">항공편명</label>
+                    <input type="text" class="form-control" id="flightNumber" name="flightNumber" th:field="*{flightNum}" required>
+                    <div class="field-error" th:errors="*{flightNum}"></div>
+                </div>
+                <div>
+                    <label for="departureDate" class="form-label">예정 출발 날짜</label>
+                    <input type="datetime-local" class="form-control" id="departureDate" name="departureDate" th:field="*{departureDate}" required>
+                    <div class="field-error" th:errors="*{departureDate}"></div>
+                </div>
+                <button class="btn-primary btn-sm" type="submit">조회</button>
+            </form>
+        </div>
     </div>
-</div>
+    <div class="container" style="width: 50%">
+        <div class="row" style="margin-bottom: 70px">
+            <img class= "col-3" src="/images/aircraft.png" alt="Aircraft img">
+            <div class="col text-center">
+                <h3 style="font-weight: bold; margin: 25px 0 25px">항공편 지연, 취소 조회 기능</h3>
+                <div style="font-size: 18px;">
+                    항공편명과 날짜 입력으로 항공편 지연, 취소를 조회할 수 있습니다.
+                </div>
+                <div style="font-size: 18px;">
+                    항공편이 지연되거나 취소되었을 경우에는 보상 신청이 가능합니다.
+                </div>
+                <div style="font-size: 18px";>
+                    이 서비스는 로그인하지 않아도 이용 가능합니다.
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <img class= "col-3" src="/images/travee-ether-wallet.png" alt="Ether img">
+            <div class="col text-center">
+                <h3 style="font-weight: bold; margin: 25px 0 25px">이더리움을 통한 자동 보상 가능</h3>
+                <div style="font-size: 18px;">
+                    항공기 지연 사유에 한하여 상담 없이 이더리움을 통한 자동 보상이 가능합니다.
+                </div>
+                <div style="font-size: 18px;">
+                    항공편 데이터 베이스 조회 후 지연되거나 취소된 항공편일 경우 보상이 가능합니다.
+                </div>
+                <div style="font-size: 18px";>
+                    이 서비스를 이용하고 싶으시다면, 내 정보에서 가상 화폐 계좌를 등록해주세요.
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

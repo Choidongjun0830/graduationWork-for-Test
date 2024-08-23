@@ -327,5 +327,21 @@ public class InsuranceController {
         return "insurance/insuranceDetails";
     }
 
+    @GetMapping("/insurance/domestic")
+    public String domesticInsuranceLists(@SessionAttribute(name = SessionConst.LOGIN_USER, required = false) User loginUser,
+                                 Model model) {
+        List<Insurance> domesticInsurances = insuranceService.findAllInsurancesByType(InsuranceType.DOMESTIC);
+        model.addAttribute("domesticInsurances", domesticInsurances);
 
+        return "insurance/domesticInsuranceLists";
+    }
+
+    @GetMapping("/insurance/oversea")
+    public String overseaInsuranceLists(@SessionAttribute(name = SessionConst.LOGIN_USER, required = false) User loginUser,
+                                 Model model) {
+        List<Insurance> overseasInsurances = insuranceService.findAllInsurancesByType(InsuranceType.OVERSEAS);
+        model.addAttribute("overseasInsurances", overseasInsurances);
+
+        return "insurance/overseaInsuranceLists";
+    }
 }

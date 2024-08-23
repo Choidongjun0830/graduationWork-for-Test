@@ -10,6 +10,9 @@
     <div class="py-5 text-center">
         <h2>보상 가능 여부 검색 결과</h2>
     </div>
+    <div class="text-center mb-3" th:if="${noneLoginFlag} and ${searchResult.result}" style="color: red">
+        <h4>회원가입/로그인 후 보상 신청해주세요.</h4>
+    </div>
     <div class="text-center mb-3">
         <h4 th:text="${searchResult.searchResult}"></h4>
     </div>
@@ -22,6 +25,7 @@
             <p><strong>상태:</strong> <span th:text="${searchResult.formattedStatus}"></span></p>
         </div>
     </div>
-</div> <!-- /container -->
+
+</div>
 </body>
 </html>

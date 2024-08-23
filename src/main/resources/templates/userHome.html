@@ -7,10 +7,10 @@
 <body>
 <div class="bg">
     <div class="search-container">
-        <h2>항공기 지연 보상 간단 조회</h2>
+        <h2>항공편 지연, 취소 보상 조회</h2>
         <form th:action="@{/}" th:object="${delayForm}" method="post" novalidate>
             <div>
-                <label for="flightNumber" class="form-label">항공기 번호</label>
+                <label for="flightNumber" class="form-label">항공편명</label>
                 <input type="text" class="form-control" id="flightNumber" name="flightNumber" th:field="*{flightNum}" required>
                 <div class="field-error" th:errors="*{flightNum}"></div>
             </div>
@@ -22,40 +22,44 @@
             <button class="btn-primary btn-sm" type="submit">조회</button>
         </form>
     </div>
+
 </div>
 <div class="container" style="max-width: 80%">
+
     <div class="mt-4"></div>
-    <div class="row">
-        <div class="col">
-            <button class="w-100 btn btn-primary btn-lg" type="button"
+    <div class="d-flex justify-content-center mt-4" style="max-width: 60%; margin: 0 auto;">
+        <div class="col d-flex justify-content-center">
+            <button class="w-100 btn btn-row" type="button" style="max-width: 50%;"
                     th:onclick="|location.href='@{/insurance/new}'|">
-                보험 신청
+                보험 가입 신청
             </button>
         </div>
-        <div class="col">
-            <button class="w-100 btn btn-primary btn-lg" type="button"
+        <div class="col d-flex justify-content-center">
+            <button class="w-100 btn btn-row" type="button" style="max-width: 50%;"
                     th:onclick="|location.href='@{/user/info}'|">
                 내 정보
             </button>
         </div>
     </div>
-<!--    <hr class="my-4">-->
-<!--    <div class="py-5 text-center">-->
-<!--        <h2>간단 보상 조회</h2>-->
-<!--    </div>-->
-<!--    <form th:action="@{/}" th:object="${delayForm}" method="post" novalidate>-->
-<!--        <div class="mb-3">-->
-<!--            <label for="flightNumber" class="form-label">항공기 번호</label>-->
-<!--            <input type="text" class="form-control" id="flightNumber" name="flightNumber" th:field="*{flightNum}" required>-->
-<!--            <div class="field-error" th:errors="*{flightNum}"></div>-->
-<!--        </div>-->
-<!--        <div class="mb-3">-->
-<!--            <label for="departureDate" class="form-label">예정 출발 날짜</label>-->
-<!--            <input type="datetime-local" class="form-control" id="departureDate" name="departureDate" th:field="*{departureDate}" required>-->
-<!--            <div class="field-error" th:errors="*{departureDate}"></div>-->
-<!--        </div>-->
-<!--        <button class="w-100 btn btn-primary btn-lg" type="submit">조회</button>-->
-<!--    </form>-->
-</div> <!-- /container -->
+
+    <div class="container" style="width: 65%">
+        <div class="row" style="margin-bottom: 70px">
+            <img class= "col-2" src="/images/patient.png" alt="Aircraft img">
+            <div class="col text-center">
+                <h4 style="font-weight: bold; margin: 25px 0 25px">여행 중 각종 위험 보장</h4>
+                <div style="font-size: 18px;">
+                    질병, 상해, 항공기 지연, 납치 등 다양하게 보장
+                </div>
+            </div>
+            <img class= "col-2" src="/images/calender.png" alt="Ether img">
+            <div class="col text-center">
+                <h4 style="font-weight: bold; margin: 25px 0 25px">여행 기간 자유 선택</h4>
+                <div style="font-size: 18px;">
+                    여행 기간을 1일 부터 자유롭게 선택 가능
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
