@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
+
 <div class="bg">
     <div class="search-container">
         <h2>항공편 지연, 취소 보상 조회</h2>
@@ -19,46 +20,66 @@
                 <input type="datetime-local" class="form-control" id="departureDate" name="departureDate" th:field="*{departureDate}" required>
                 <div class="field-error" th:errors="*{departureDate}"></div>
             </div>
-            <button class="btn-primary btn-sm" type="submit">조회</button>
+            <button class="btn btn-primary btn-sm" type="submit">조회</button>
         </form>
     </div>
 
+    <div class="d-flex justify-content-center" style="margin-top: 50px">
+        <button class="btn btn-apply-row btn-box-shadow" type="button" style="width: 200px; margin-right: 30px"
+                th:onclick="|location.href='@{/insurance/new}'|">
+            보험 가입 신청
+        </button>
+        <button class="btn btn-apply-row btn-box-shadow" type="button" style="width: 200px; margin-left: 30px"
+                th:onclick="|location.href='@{/user/info}'|">
+            내 정보
+        </button>
+    </div>
 </div>
+
+
+
 <div class="container" style="max-width: 80%">
 
-    <div class="mt-4"></div>
-    <div class="d-flex justify-content-center mt-4" style="max-width: 60%; margin: 0 auto;">
-        <div class="col d-flex justify-content-center">
-            <button class="w-100 btn btn-row" type="button" style="max-width: 50%;"
-                    th:onclick="|location.href='@{/insurance/new}'|">
-                보험 가입 신청
-            </button>
-        </div>
-        <div class="col d-flex justify-content-center">
-            <button class="w-100 btn btn-row" type="button" style="max-width: 50%;"
-                    th:onclick="|location.href='@{/user/info}'|">
-                내 정보
-            </button>
-        </div>
-    </div>
-
     <div class="container" style="width: 65%">
+        <h4 class="text-center" style="font-weight: bold; margin-bottom: 50px">각종 위험 보장 및 혜택</h4>
         <div class="row" style="margin-bottom: 70px">
-            <img class= "col-2" src="/images/patient.png" alt="Aircraft img">
+            <img class= "col-2" src="/images/travel-insurance1.png" alt="Aircraft img">
             <div class="col text-center">
-                <h4 style="font-weight: bold; margin: 25px 0 25px">여행 중 각종 위험 보장</h4>
+                <h4 style="font-weight: bold; margin: 15px 0 25px">여행 중 각종 위험 보장</h4>
                 <div style="font-size: 18px;">
                     질병, 상해, 항공기 지연, 납치 등 다양하게 보장
                 </div>
             </div>
-            <img class= "col-2" src="/images/calender.png" alt="Ether img">
+            <img class= "col-2" src="/images/travel-period.png" alt="Ether img">
             <div class="col text-center">
-                <h4 style="font-weight: bold; margin: 25px 0 25px">여행 기간 자유 선택</h4>
+                <h4 style="font-weight: bold; margin: 15px 0 25px">여행 기간 자유 선택</h4>
                 <div style="font-size: 18px;">
                     여행 기간을 1일 부터 자유롭게 선택 가능
                 </div>
             </div>
         </div>
+        <div class="row" style="margin-bottom: 70px">
+            <img class= "col-2" src="/images/etherium.png" alt="Aircraft img">
+            <div class="col text-center">
+                <h4 style="font-weight: bold; margin: 15px 0 25px">보험금 자동 보상</h4>
+                <div style="font-size: 18px;">
+                    항공편 지연, 취소 사유에 한하여 사용자의 가상 화폐 계좌로 보험금 자동 전송
+                </div>
+            </div>
+        </div>
+        <h4 class="text-center" style="font-weight: bold; margin: 50px 0">보험금 미지급 사유</h4>
+        <ul class="insurance-exclusions">
+            <li>계약자, 피보험자, 보험수익자가 고의로 피보험자를 해친 경우</li>
+            <li>임신, 출산(제왕절개 포함), 산후기 (단, 회사가 보장하는 보험금 지급사유와 보장개시일부터 2년이 지난 후에 발생한 습관성 유산, 불임 및 인공수정 관련 합병증으로 인한 경우에는 보험금을 지급합니다.)</li>
+            <li>피보험자의 질병</li>
+            <li>전쟁, 외국의 무력행사, 혁명, 내란, 사변, 폭동</li>
+            <li>하역작업을 하는 동안 발생된 손해</li>
+            <li>교통수단의 설치, 수선, 점검, 정비나 청소작업을 하는 동안 발생된 손해</li>
+            <li>전문등반(전문적인 등산용구를 사용하여 암벽 또는 빙벽을 오르내리거나</li>
+            <li>특수한 기술, 경험, 사전훈련을 필요로 하는 등반을 말합니다), 글라이더 조종, 스카이다이빙, 스쿠버다이빙, 행글라이딩, 수상보트, 패러글라이딩</li>
+            <li>모터보트, 자동차 또는 오토바이에 의한 경기, 시범, 흥행(이를 위한 연습 포함) 또는 시운전</li>
+            <li>선박승무원, 어부, 사공, 그 밖에 선박에 탑승하는 것을 직무로 하는 사람이 직무상 선박에 탑승하고 있는 동안</li>
+        </ul>
     </div>
 </div>
 </body>

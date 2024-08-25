@@ -6,22 +6,32 @@
 </head>
 <body>
 <div class="container" style="max-width: 40%">
-    <div class="py-5 text-center" style="width: 90%">
-        <h2>여행자 보험</h2>
-        <h3>여행 유형을 선택하세요</h3>
+    <div class="py-5 text-center" style="width: 100%">
+        <h2>여행 유형 선택</h2>
     </div>
-    <div class="row justify-content-center" style="width: 100%">
-        <div class="col-6 col-md-4 d-grid">
-            <button class="btn btn-primary btn-lg"
-                    th:onclick="|location.href='@{/insurance/new/domestic}'|"
-                    type="button">국내 여행
-            </button>
+<!--    row 높이 키우기 -->
+    <div class="row" style="height: 30vh">
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center position-relative">
+                    <h4 class="card-title">국내 여행</h4>
+                    <hr class="my-4">
+                    <p class="card-text" style="margin-bottom: 30px">국내 여행 계획을 세우고 계신가요?</p>
+                    <img src="/images/gyeongbokgung.png" alt="Local img" style="width: 100px; height: 100px">
+                    <a th:href="@{'/insurance/new/domestic'}" class="stretched-link"></a>
+                </div>
+            </div>
         </div>
-        <div class="col-6 col-md-4 d-grid">
-            <button class="btn btn-primary btn-lg"
-                    th:onclick="|location.href='@{/insurance/new/overseas}'|"
-                    type="button">해외 여행
-            </button>
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center position-relative">
+                    <h4 class="card-title">해외 여행</h4>
+                    <hr class="my-4">
+                    <p class="card-text" style="margin-bottom: 30px">해외 여행 계획을 세우고 계신가요?</p>
+                    <img src="/images/earth-color.png" alt="Earth img" style="width: 100px; height: 100px">
+                    <a th:href="@{'/insurance/new/overseas'}" class="stretched-link"></a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
