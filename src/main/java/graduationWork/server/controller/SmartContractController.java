@@ -65,7 +65,10 @@ public class SmartContractController {
         UserInsurance userInsurance = userInsuranceService.findOne(userInsuranceId);
         List<Transactions> userTransactions = transactionsService.findByFromToValue(contractAddress, userWalletAddress, userInsurance.getCompensationAmountEther());
         Transactions transaction = userTransactions.get(0);
+
+        String receiptUrl = etherscanApiClient.makeReceiptUrl(transaction.getHash());
         model.addAttribute("transaction", transaction);
+        model.addAttribute("receiptUrl", receiptUrl);
         return "ether/compensationReceipt";
     }
 }

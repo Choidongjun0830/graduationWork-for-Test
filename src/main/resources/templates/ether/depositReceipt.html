@@ -93,8 +93,7 @@
         <div class="separator"></div>
 
         <div class="d-flex justify-content-end mt-4">
-            <button class="btn btn-primary btn-sm custom-btn" style="margin-right: 20px">Etherscan에서 보기</button>
-<!--            <button class="btn btn-secondary btn-sm custom-btn" th:onclick="|location.href='@{/user/info}'|">돌아가기</button>-->
+            <a th:href="${receiptUrl}" class="btn btn-primary btn-sm me-2 custom-btn d-flex justify-content-center align-items-center" style="margin-right: 20px">Etherscan에서 보기</a>
             <a class="navbar-brand" th:href="@{/user/info}">
                 <img src="/images/return-btn-removebg-preview.png" alt="return-logo" style="height: 52px;">
             </a>
