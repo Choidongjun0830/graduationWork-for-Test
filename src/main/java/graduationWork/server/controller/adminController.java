@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +27,9 @@ import org.springframework.web.util.UriUtils;
 import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.AccessDeniedException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -71,6 +74,32 @@ public class adminController {
         return "admin/joinManage";
     }
 
+    @PostMapping("/insurance/admin/join/manage")
+    public ResponseEntity<Map<String, String>> sendJoinMail(@RequestParam("userInsuranceId") Long userInsuranceId, HttpSession session) throws AccessDeniedException {
+        if (!checkRole(session)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        UserInsurance userInsurance = userInsuranceService.findOne(userInsuranceId);
+        String sub = "보험 가입 완료";
+        emailService.sendJoinEmail(userInsuranceId, sub);
+
+        // JSON 형태로 리다이렉트 URL 반환
+        Map<String, String> response = new HashMap<>();
+        response.put("redirectUrl", "/insurance/admin/join/manage/confirm?userInsuranceId=" + userInsuranceId);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/insurance/admin/join/manage/confirm")
+    public String confirmJoinMail(@RequestParam("userInsuranceId") Long userInsuranceId, Model model, HttpSession session) throws AccessDeniedException {
+        if (!checkRole(session)) {
+            return "error/403";
+        }
+        UserInsurance userInsurance = userInsuranceService.findOne(userInsuranceId);
+        model.addAttribute("userInsurance", userInsurance);
+        return "admin/joinEmailSuccess";
+    }
+
     @GetMapping("/insurance/admin/compensation/manage")
     public String compensationManage(@RequestParam Long userInsuranceId, Model model, HttpSession session) throws AccessDeniedException {
         if (!checkRole(session)) {
@@ -82,27 +111,10 @@ public class adminController {
         return "admin/compensationManage";
     }
 
-    @PostMapping("/insurance/admin/sendJoinMail")
-    public String sendJoinMail(@RequestParam("userInsuranceId") Long userInsuranceId, Model model, HttpSession session) throws AccessDeniedException {
-        if (!checkRole(session)) {
-            return "error/403";
-        }
-
-        UserInsurance userInsurance = userInsuranceService.findOne(userInsuranceId);
-
-        String sub = "보험 가입 완료";
-        emailService.sendJoinEmail(userInsuranceId, sub);
-
-        model.addAttribute("message", "이메일이 성공적으로 전송되었습니다.");
-        model.addAttribute("userInsurance", userInsurance);
-
-        return "admin/joinEmailSuccess";
-    }
-
     @PostMapping("/insurance/admin/sendCompensationMail")
-    public String sendCompensatingMail(@RequestParam("userInsuranceId") Long userInsuranceId, Model model, HttpSession session) throws AccessDeniedException {
+    public ResponseEntity<Map<String, String>> sendCompensatingMail(@RequestParam("userInsuranceId") Long userInsuranceId, HttpSession session) throws AccessDeniedException {
         if (!checkRole(session)) {
-            return "error/403";
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
         UserInsurance userInsurance = userInsuranceService.findOne(userInsuranceId);
@@ -110,9 +122,19 @@ public class adminController {
         String sub = "보험 보상 진행을 위한 메일 전송";
         emailService.sendAdminCompensatingEmail(userInsuranceId, sub);
 
-        model.addAttribute("message", "이메일이 성공적으로 전송되었습니다.");
-        model.addAttribute("userInsurance", userInsurance);
+        // JSON 형태로 리다이렉트 URL 반환
+        Map<String, String> response = new HashMap<>();
+        response.put("redirectUrl", "/insurance/admin/compensation/manage/confirm?userInsuranceId=" + userInsuranceId);
+        return ResponseEntity.ok(response);
+    }
 
+    @GetMapping("/insurance/admin/compensation/manage/confirm")
+    public String confirmCompensationMail(@RequestParam("userInsuranceId") Long userInsuranceId, Model model, HttpSession session) throws AccessDeniedException {
+        if (!checkRole(session)) {
+            return "error/403";
+        }
+        UserInsurance userInsurance = userInsuranceService.findOne(userInsuranceId);
+        model.addAttribute("userInsurance", userInsurance);
         return "admin/compensationEmailSuccess";
     }
 

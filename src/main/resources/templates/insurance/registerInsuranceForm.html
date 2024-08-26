@@ -49,60 +49,45 @@
     </form>
 
     <script>
-        // 로딩 HTML을 동적으로 불러와 삽입하는 함수
-        function includeLoadingHTML() {
-            $('#loadingContainer').load('/fragments/loading.html', function(responseText, textStatus, jqXHR) {
-                if (textStatus === "success") {
-                    $('.loading-container').hide(); // 처음에는 숨겨둠
-                } else {
-                    console.error("Failed to load loading.html:", textStatus);
-                }
-            });
-        }
-
-        // 로딩 중 상태를 설정하는 함수
-        function showLoading() {
-            $('.loading-container').show();
-        }
-
-        // 로딩이 끝난 상태를 설정하는 함수
-        function hideLoading() {
-            $('.loading-container').hide();
-            $('.content').show();
-        }
-
         $(document).ready(function() {
-            includeLoadingHTML(); // 로딩 HTML 초기화
+            $('#loadingContainer').load('/fragments/loading.html', function() {
+                $('.loading-container').hide();
+            });
 
-            // Form submit을 AJAX로 처리
             $('form').submit(function(event) {
-                event.preventDefault(); // 폼의 기본 제출 동작을 중지
-
-                showLoading(); // 폼이 제출되면 로딩 화면 표시
+                event.preventDefault();
+                $('.loading-container').show();
 
                 $.ajax({
-                    url: $(this).attr('action'), // Form의 action URL
-                    method: $(this).attr('method'), // Form의 method
-                    data: $(this).serialize(), // Form 데이터 직렬화
-                    dataType: 'json', // 서버 응답을 JSON으로 처리
+                    url: $(this).attr('action'),
+                    method: $(this).attr('method'),
+                    data: $(this).serialize(),
+                    dataType: 'json',
                     success: function(response) {
-                        console.log('Form submitted successfully:', response);
-
-                        // 서버로부터 받은 응답에서 redirectUrl을 확인하고 리다이렉트 수행
                         if (response.redirectUrl) {
-                            window.location.href = response.redirectUrl; // 서버 리다이렉트 URL로 이동
+                            window.location.href = response.redirectUrl;
                         } else {
-                            hideLoading(); // 리다이렉트 URL이 없으면 로딩 화면 숨기기
+                            $('.loading-container').hide();
                         }
                     },
-                    error: function(error) {
-                        console.error('Error submitting form:', error);
-                        hideLoading(); // AJAX 요청이 실패해도 로딩 화면 숨기기
+                    error: function(jqXHR) {
+                        if (jqXHR.responseJSON && jqXHR.responseJSON.errors) {
+                            displayErrors(jqXHR.responseJSON.errors);
+                        }
+                        $('.loading-container').hide();
                     }
                 });
             });
+
+            function displayErrors(errors) {
+                $('.field-error').html('');
+                for (const [field, message] of Object.entries(errors)) {
+                    $('[name="' + field + '"]').closest('.mb-3').find('.field-error').html(message);
+                }
+            }
         });
     </script>
+
 
 </div>
 </body>

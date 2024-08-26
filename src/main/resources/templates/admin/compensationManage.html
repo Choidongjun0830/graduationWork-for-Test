@@ -25,6 +25,8 @@
 </head>
 <body>
 <div class="container" style="max-width: 80%">
+    <div id="loadingContainer"></div>
+
     <div class="py-5 text-center">
         <h2>보험 상세 정보</h2>
     </div>
@@ -54,5 +56,46 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('#loadingContainer').load('/fragments/loading.html', function() {
+            $('.loading-container').hide();
+        });
+
+        $('form').submit(function(event) {
+            event.preventDefault();
+            $('.loading-container').show();
+
+            $.ajax({
+                url: $(this).attr('action'),
+                method: $(this).attr('method'),
+                data: $(this).serialize(),
+                dataType: 'json', // JSON 응답 기대
+                success: function(response) {
+                    if (response.redirectUrl) {
+                        window.location.href = response.redirectUrl; // 서버에서 받은 redirectUrl로 이동
+                    } else {
+                        $('.loading-container').hide(); // 리디렉션 URL이 없으면 로딩 화면 숨기기
+                    }
+                },
+                error: function(jqXHR) {
+                    if (jqXHR.responseJSON && jqXHR.responseJSON.errors) {
+                        displayErrors(jqXHR.responseJSON.errors);
+                    }
+                    $('.loading-container').hide(); // AJAX 요청이 실패해도 로딩 화면 숨기기
+                }
+            });
+        });
+
+        function displayErrors(errors) {
+            $('.field-error').html('');
+            for (const [field, message] of Object.entries(errors)) {
+                $('[name="' + field + '"]').closest('.mb-3').find('.field-error').html(message);
+            }
+        }
+    });
+</script>
+
 </body>
 </html>

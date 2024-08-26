@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header">
-    <title>Domestic Insurance Specs</title>
+    <title>보험 가입 정보</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <style>
         .card:hover {
@@ -21,10 +21,25 @@
         .btn-email {
             margin-top: 20px;
         }
+        .loading-container {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
     </style>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
 <div class="container" style="max-width: 80%">
+    <div id="loadingContainer"></div>
+
     <div class="py-5 text-center">
         <h2>보험 가입 정보</h2>
     </div>
@@ -39,7 +54,7 @@
                     <p class="card-text">만료일: <span th:text="${userInsurance?.endDate}">EndDate</span></p>
                     <p class="card-text">가입 보험료: <span th:text="${userInsurance?.registerPrice}">RegisterPrice</span></p>
                     <hr class="my-4">
-                    <form th:action="@{/insurance/admin/sendJoinMail}" method="post">
+                    <form id="emailForm" th:action="@{/insurance/admin/join/manage}" method="post">
                         <input type="hidden" name="userInsuranceId" th:value="${userInsurance?.id}"/>
                         <button type="submit" class="btn btn-primary btn-email">이메일 전송</button>
                     </form>
@@ -48,5 +63,46 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('#loadingContainer').load('/fragments/loading.html', function() {
+            $('.loading-container').hide();
+        });
+
+        $('form').submit(function(event) {
+            event.preventDefault();
+            $('.loading-container').show();
+
+            $.ajax({
+                url: $(this).attr('action'),
+                method: $(this).attr('method'),
+                data: $(this).serialize(),
+                dataType: 'json', // JSON 응답 기대
+                success: function(response) {
+                    if (response.redirectUrl) {
+                        window.location.href = response.redirectUrl; // 서버에서 받은 redirectUrl로 이동
+                    } else {
+                        $('.loading-container').hide(); // 리디렉션 URL이 없으면 로딩 화면 숨기기
+                    }
+                },
+                error: function(jqXHR) {
+                    if (jqXHR.responseJSON && jqXHR.responseJSON.errors) {
+                        displayErrors(jqXHR.responseJSON.errors);
+                    }
+                    $('.loading-container').hide(); // AJAX 요청이 실패해도 로딩 화면 숨기기
+                }
+            });
+        });
+
+        function displayErrors(errors) {
+            $('.field-error').html('');
+            for (const [field, message] of Object.entries(errors)) {
+                $('[name="' + field + '"]').closest('.mb-3').find('.field-error').html(message);
+            }
+        }
+    });
+</script>
+
 </body>
 </html>

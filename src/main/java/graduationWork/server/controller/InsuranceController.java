@@ -15,10 +15,12 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.web3j.utils.Convert;
@@ -270,47 +272,48 @@ public class InsuranceController {
 //    }
 
     @PostMapping("insurance/compensation/apply/flightDelay")
-    public ResponseEntity<Map<String, Object>> flightDelayApply(@RequestParam Long userInsuranceId,
-                                                                @ModelAttribute("delayForm") @Validated DelayCompensationApplyForm delayForm,
-                                                                BindingResult bindingResult,
-                                                                Model model,
-                                                                HttpSession session) {
+    public ResponseEntity<?> flightDelayApply(@RequestParam Long userInsuranceId,
+                                              @ModelAttribute("delayForm") @Validated DelayCompensationApplyForm delayForm,
+                                              BindingResult bindingResult,
+                                              Model model,
+                                              HttpSession session) {
 
         model.addAttribute("userInsuranceId", userInsuranceId);
+        Map<String, String> response = new HashMap<>();
+
+        // 유효성 검사
+        if (bindingResult.hasErrors()) {
+            for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                response.put(fieldError.getField(), fieldError.getDefaultMessage());
+            }
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
 
         String formFlightNum = delayForm.getFlightNum();
         LocalDateTime formDepartureDate = delayForm.getDepartureDate();
 
-        if (formDepartureDate == null || formFlightNum == null) { // 입력하지 않았을 때.
-            bindingResult.reject("flightDelayApplyNullError", null);
-            Map<String, Object> response = new HashMap<>();
-            response.put("errors", bindingResult.getAllErrors());
-            return ResponseEntity.badRequest().body(response);
-        }
-
         Flight findFlight = flightService.getFlight(formFlightNum, formDepartureDate);
         String dateTime = DateTimeUtils.formatDateTime(formDepartureDate);
-        if (findFlight == null) { // 존재하는 항공편이 없을 때.
-            bindingResult.reject("flightDelayApplyError", new Object[]{formFlightNum, dateTime}, null);
-            Map<String, Object> response = new HashMap<>();
-            response.put("errors", bindingResult.getAllErrors());
-            return ResponseEntity.badRequest().body(response);
+
+        // 항공편이 없을 때
+        if (findFlight == null) {
+            bindingResult.rejectValue("flightNum", "flightNotFound", new Object[]{formFlightNum, dateTime}, "존재하는 항공편이 없습니다.");
+            for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                response.put(fieldError.getField(), fieldError.getDefaultMessage());
+            }
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
-        if (findFlight.getStatus() == FlightStatus.SCHEDULED) { // 항공편의 상태가 지연이나 취소가 아님.
-            bindingResult.reject("flightDelayApplyNotDelayedNotCancelled", new Object[]{formFlightNum, dateTime}, null);
-            Map<String, Object> response = new HashMap<>();
-            response.put("errors", bindingResult.getAllErrors());
-            return ResponseEntity.badRequest().body(response);
+        // 항공편이 예정 상태일 때
+        if (findFlight.getStatus() == FlightStatus.SCHEDULED) {
+            bindingResult.reject("flightDelayApplyNotDelayedNotCancelled", new Object[]{formFlightNum, dateTime}, "항공편의 상태가 지연이나 취소가 아닙니다.");
+            for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                response.put(fieldError.getField(), fieldError.getDefaultMessage());
+            }
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
-        if (bindingResult.hasErrors()) {
-            log.info("errors={}", bindingResult);
-            Map<String, Object> response = new HashMap<>();
-            response.put("errors", bindingResult.getAllErrors());
-            return ResponseEntity.badRequest().body(response);
-        }
-
+        // 모든 검증을 통과한 경우
         User loginUser = (User) session.getAttribute("loginUser");
         userInsuranceService.applyDelayCompensation(userInsuranceId, loginUser.getId(), delayForm);
 
@@ -378,15 +381,19 @@ public class InsuranceController {
 
     //파일 업로드
     @PostMapping("/insurance/compensation/apply/upload")
-    public String upload(@RequestParam Long userInsuranceId,
-                           @ModelAttribute("uploadForm") UploadCompensationApplyForm uploadForm, Model model,
-                           HttpSession session) throws IOException {
+    public ResponseEntity<Map<String, String>> upload(@RequestParam Long userInsuranceId,
+                                                      @ModelAttribute("uploadForm") UploadCompensationApplyForm uploadForm,
+                                                      HttpSession session) throws IOException {
 
         User loginUser = (User) session.getAttribute("loginUser");
 
+        // 보상 신청 업로드 처리
         userInsuranceService.applyUploadCompensation(userInsuranceId, loginUser.getId(), uploadForm);
 
-        return "redirect:/insurance/compensation/apply/upload/confirm?userInsuranceId="+userInsuranceId;
+        // JSON 형태로 리다이렉트 URL 반환
+        Map<String, String> response = new HashMap<>();
+        response.put("redirectUrl", "/insurance/compensation/apply/upload/confirm?userInsuranceId=" + userInsuranceId);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("insurance/compensation/apply/upload/confirm")
