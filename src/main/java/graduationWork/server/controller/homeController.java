@@ -5,12 +5,14 @@ import graduationWork.server.domain.Insurance;
 import graduationWork.server.domain.User;
 import graduationWork.server.domain.UserInsurance;
 import graduationWork.server.dto.DelayCompensationApplyForm;
+import graduationWork.server.dto.DelaySearchApplyForm;
 import graduationWork.server.dto.FlightSearchResult;
 import graduationWork.server.enumurate.FlightStatus;
 import graduationWork.server.service.FlightService;
 import graduationWork.server.service.UserInsuranceService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +24,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class homeController {
 
     private final FlightService flightService;
@@ -29,7 +32,7 @@ public class homeController {
 
     @GetMapping("/")
     public String homeLogin(@SessionAttribute(name = SessionConst.LOGIN_USER, required = false) User loginUser,
-                            @ModelAttribute("delayForm") DelayCompensationApplyForm delayForm,
+                            @ModelAttribute("delayForm") DelaySearchApplyForm delayForm,
                             Model model) {
         if(loginUser == null) {
             return "home";
@@ -48,7 +51,7 @@ public class homeController {
 
     @PostMapping("/")
     public String searchInsurance(@SessionAttribute(name = SessionConst.LOGIN_USER, required = false) User loginUser,
-                                  @Validated @ModelAttribute("delayForm") DelayCompensationApplyForm delayForm,
+                                  @Validated @ModelAttribute("delayForm") DelaySearchApplyForm delayForm,
                                   BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()){
@@ -58,10 +61,10 @@ public class homeController {
                 return "userHome";
             }
         }
+        log.info("Received flight number: {}, departure date: {}", delayForm.getFlightNum(), delayForm.getDepartureDate());
 
         String flightNum = delayForm.getFlightNum();
         LocalDateTime departureDate = delayForm.getDepartureDate();
-
         Flight flight = flightService.getFlight(flightNum, departureDate);
 
         if(flight == null) {
