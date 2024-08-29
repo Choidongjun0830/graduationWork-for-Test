@@ -20,13 +20,15 @@
       background-size: 80%; /* 이미지 크기를 화면 크기의 80%로 설정 */
       background-position: center; /* 이미지의 위치를 가운데로 설정 */
       width: 100vw;
-      height: 100vh;
+      min-height: 100vh;
     }
     .header {
       border-bottom: 1px solid lightgray;
     }
     .container {
       margin-top: 50px;
+      flex: 1;
+      min-height: 70vh;
     }
     .form-label {
       font-weight: bold;
@@ -301,7 +303,24 @@
       margin-top: 20px;
       font-size: 16px;
     }
+    .footer{
+      position: relative;
+      bottom: 0;
+      width: 100%;
+      border-top: 1px solid lightgray;
+      background-color: white;
+      padding-top: 20px;
+      padding-bottom: 10px;
+      margin-top: 30px
+    }
+    .footer-text{
+      font-weight: bold;
+      font-size:0.7rem;
+      color:#545e6f;
+      margin-bottom:0.3rem;
+    }
   </style>
+  <link rel="icon" href="/images/travel-insurance3.png">
   <title>Travée</title>
 </head>
 <body>

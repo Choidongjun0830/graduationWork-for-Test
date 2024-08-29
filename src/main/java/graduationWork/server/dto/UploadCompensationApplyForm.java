@@ -14,6 +14,6 @@ import java.util.List;
 @Data
 public class UploadCompensationApplyForm {
 
-    @NotEmpty(message = "보험 서류를 하나 이상 업로드해야 합니다.") //초기화를 해서 NullPointException이 일어나지 않도록.
+    @NotEmpty(message = "보험 서류를 하나 이상 업로드해야 합니다.") //초기화를 해서 NullPointException이 일어나 않도록.
     private List<MultipartFile> insuranceDocuments = new ArrayList<>();
 }
