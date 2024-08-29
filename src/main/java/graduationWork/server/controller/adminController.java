@@ -80,7 +80,6 @@ public class adminController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        UserInsurance userInsurance = userInsuranceService.findOne(userInsuranceId);
         String sub = "보험 가입 완료";
         emailService.sendJoinEmail(userInsuranceId, sub);
 
@@ -116,8 +115,6 @@ public class adminController {
         if (!checkRole(session)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-
-        UserInsurance userInsurance = userInsuranceService.findOne(userInsuranceId);
 
         String sub = "보험 보상 진행을 위한 메일 전송";
         emailService.sendAdminCompensatingEmail(userInsuranceId, sub);

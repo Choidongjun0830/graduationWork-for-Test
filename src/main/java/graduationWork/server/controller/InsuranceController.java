@@ -12,6 +12,7 @@ import graduationWork.server.file.FileStore;
 import graduationWork.server.service.*;
 import graduationWork.server.utils.DateTimeUtils;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +24,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.web3j.utils.Convert;
 
 import java.io.IOException;
@@ -89,46 +91,22 @@ public class InsuranceController {
         return "insurance/registerInsuranceForm";
     }
 
-//    @PostMapping("/insurance/new/{insuranceId}")
-//    public String registerInsuranceProc(@PathVariable Long insuranceId,
-//                                        @SessionAttribute(name = SessionConst.LOGIN_USER, required = false) User loginUser,
-//                                        @Validated @ModelAttribute("dateSelectForm")InsuranceJoinDateSelectForm dateSelectForm,
-//                                        BindingResult bindingResult,
-//                                        HttpSession session, Model model) {
-//
-//        if (bindingResult.hasErrors()) {
-//            model.addAttribute("insurance", insuranceService.findOneInsurance(insuranceId));
-//            return "insurance/registerInsuranceForm";
-//        }
-//
-//        //보험 가입 처리
-//        Long loginUserId = loginUser.getId();
-//        LocalDate startDate = dateSelectForm.getStartDate();
-//        LocalDate endDate = dateSelectForm.getEndDate();
-//
-//        if (startDate.isBefore(LocalDate.now()) || endDate.isBefore(LocalDate.now()) || startDate.isAfter(endDate)) {
-//            bindingResult.reject("insuranceJoinDateError", null);
-//            model.addAttribute("insurance", insuranceService.findOneInsurance(insuranceId));
-//            return "insurance/registerInsuranceForm";
-//        }
-//
-//        Long userInsuranceId = userInsuranceService.joinApplyInsurance(insuranceId, loginUserId, startDate, endDate); //가입 신청
-//
-//        session.setAttribute("userInsuranceId", userInsuranceId);
-//
-//        return "redirect:/insurance/new/confirm";
-//    }
-
     @PostMapping("/insurance/new/{insuranceId}")
     public ResponseEntity<?> registerInsuranceProc(@PathVariable Long insuranceId,
-                                                   @SessionAttribute(name = SessionConst.LOGIN_USER, required = false) User loginUser,
-                                                   @Validated @ModelAttribute("dateSelectForm")InsuranceJoinDateSelectForm dateSelectForm,
+                                                   @SessionAttribute(name = SessionConst.LOGIN_USER) User loginUser,
+                                                   @Valid @ModelAttribute("dateSelectForm")InsuranceJoinDateSelectForm dateSelectForm,
                                                    BindingResult bindingResult,
                                                    HttpSession session, Model model) {
 
+        Map<String, String> response = new HashMap<>();
+
         if (bindingResult.hasErrors()) {
+            for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                log.info(bindingResult.getFieldError().getDefaultMessage());
+                response.put(fieldError.getField(), fieldError.getDefaultMessage());
+            }
             model.addAttribute("insurance", insuranceService.findOneInsurance(insuranceId));
-            return ResponseEntity.badRequest().body("Form validation error");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
         // 보험 가입 처리
@@ -137,9 +115,14 @@ public class InsuranceController {
         LocalDate endDate = dateSelectForm.getEndDate();
 
         if (startDate.isBefore(LocalDate.now()) || endDate.isBefore(LocalDate.now()) || startDate.isAfter(endDate)) {
-            bindingResult.reject("insuranceJoinDateError", null);
+            bindingResult.rejectValue("endDate","insuranceJoinDateError", "시작 날짜와 종료 날짜의 입력이 잘못되었습니다.");
             model.addAttribute("insurance", insuranceService.findOneInsurance(insuranceId));
-            return ResponseEntity.badRequest().body("Date validation error");
+            if (bindingResult.hasErrors()) {
+                for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                    response.put(fieldError.getField(), fieldError.getDefaultMessage());
+                }
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+            }
         }
 
         Long userInsuranceId = userInsuranceService.joinApplyInsurance(insuranceId, loginUserId, startDate, endDate); // 가입 신청
@@ -230,50 +213,11 @@ public class InsuranceController {
         return "insurance/flightCompensationApply";
     }
 
-//    @PostMapping("insurance/compensation/apply/flightDelay")
-//    public String flightDelayApply(@RequestParam Long userInsuranceId,
-//                                   @ModelAttribute("delayForm") @Validated DelayCompensationApplyForm delayForm,
-//                                   BindingResult bindingResult,
-//                                   Model model,
-//                                   HttpSession session) {
-//
-//        model.addAttribute("userInsuranceId", userInsuranceId);
-//
-//        String formFlightNum = delayForm.getFlightNum();
-//        LocalDateTime formDepartureDate = delayForm.getDepartureDate();
-//
-//        if (formDepartureDate == null || formFlightNum == null) { //입력하지 않았을 때.
-//            bindingResult.reject("flightDelayApplyNullError",null);
-//            return "insurance/flightCompensationApply";
-//        }
-//
-//        Flight findFlight = flightService.getFlight(formFlightNum, formDepartureDate);
-//        String dateTime = DateTimeUtils.formatDateTime(formDepartureDate);
-//        if (findFlight == null) { //존재하는 항공편이 없을 때.
-//
-//            bindingResult.reject("flightDelayApplyError", new Object[]{formFlightNum, dateTime}, null);
-//            return "insurance/flightCompensationApply";
-//        }
-//
-//        if (findFlight.getStatus() == FlightStatus.SCHEDULED) { //항공편의 상태가 지연이나 취소가 아님.
-//            bindingResult.reject("flightDelayApplyNotDelayedNotCancelled", new Object[]{formFlightNum, dateTime}, null);
-//            return "insurance/flightCompensationApply";
-//        }
-//
-//        if (bindingResult.hasErrors()) {
-//            log.info("errors={}", bindingResult);
-//            return "insurance/flightCompensationApply";
-//        }
-//
-//        User loginUser = (User) session.getAttribute("loginUser");
-//        userInsuranceService.applyDelayCompensation(userInsuranceId, loginUser.getId(), delayForm);
-//
-//        return "redirect:/insurance/compensation/apply/flightDelay/confirm?userInsuranceId="+userInsuranceId;
-//    }
-
+    @ResponseBody
     @PostMapping("insurance/compensation/apply/flightDelay")
     public ResponseEntity<?> flightDelayApply(@RequestParam Long userInsuranceId,
-                                              @ModelAttribute("delayForm") @Validated DelayCompensationApplyForm delayForm,
+                                              @SessionAttribute(name = SessionConst.LOGIN_USER, required = false) User loginUser,
+                                              @Valid @ModelAttribute("delayForm") DelayCompensationApplyForm delayForm,
                                               BindingResult bindingResult,
                                               Model model,
                                               HttpSession session) {
@@ -284,6 +228,7 @@ public class InsuranceController {
         // 유효성 검사
         if (bindingResult.hasErrors()) {
             for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                log.info(bindingResult.getFieldError().getDefaultMessage());
                 response.put(fieldError.getField(), fieldError.getDefaultMessage());
             }
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
@@ -298,23 +243,26 @@ public class InsuranceController {
         // 항공편이 없을 때
         if (findFlight == null) {
             bindingResult.rejectValue("flightNum", "flightNotFound", new Object[]{formFlightNum, dateTime}, "존재하는 항공편이 없습니다.");
-            for (FieldError fieldError : bindingResult.getFieldErrors()) {
-                response.put(fieldError.getField(), fieldError.getDefaultMessage());
+            if (bindingResult.hasErrors()) {
+                for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                    response.put(fieldError.getField(), fieldError.getDefaultMessage());
+                }
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
             }
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
         // 항공편이 예정 상태일 때
         if (findFlight.getStatus() == FlightStatus.SCHEDULED) {
-            bindingResult.reject("flightDelayApplyNotDelayedNotCancelled", new Object[]{formFlightNum, dateTime}, "항공편의 상태가 지연이나 취소가 아닙니다.");
-            for (FieldError fieldError : bindingResult.getFieldErrors()) {
-                response.put(fieldError.getField(), fieldError.getDefaultMessage());
+            bindingResult.rejectValue("flightNum", "flightDelayApplyNotDelayedNotCancelled", new Object[]{formFlightNum, dateTime}, "항공편의 상태가 지연이나 취소가 아닙니다.");
+            if (bindingResult.hasErrors()) {
+                for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                    response.put(fieldError.getField(), fieldError.getDefaultMessage());
+                }
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
             }
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
         // 모든 검증을 통과한 경우
-        User loginUser = (User) session.getAttribute("loginUser");
         userInsuranceService.applyDelayCompensation(userInsuranceId, loginUser.getId(), delayForm);
 
         // JSON 형태로 리다이렉트 URL 반환
@@ -324,7 +272,7 @@ public class InsuranceController {
     //보상 완료
     @GetMapping( "/insurance/compensation/apply/flightDelay/confirm")
     public String flightCompensationConfirm(@RequestParam Long userInsuranceId, Model model,
-                                        @SessionAttribute(name = SessionConst.LOGIN_USER, required = true) User loginUser) {
+                                        @SessionAttribute(name = SessionConst.LOGIN_USER) User loginUser) {
 
         UserInsurance userInsurance = userInsuranceService.findOne(userInsuranceId);
         CompensationOption option = userInsurance.getCompensationOption();
@@ -381,17 +329,30 @@ public class InsuranceController {
 
     //파일 업로드
     @PostMapping("/insurance/compensation/apply/upload")
-    public ResponseEntity<Map<String, String>> upload(@RequestParam Long userInsuranceId,
+    public ResponseEntity<?> upload(@RequestParam Long userInsuranceId,
+                                                      @SessionAttribute(name = SessionConst.LOGIN_USER) User loginUser,
                                                       @ModelAttribute("uploadForm") UploadCompensationApplyForm uploadForm,
-                                                      HttpSession session) throws IOException {
+                                                      BindingResult bindingResult) throws IOException {
 
-        User loginUser = (User) session.getAttribute("loginUser");
+        Map<String, String> response = new HashMap<>();
+
+        if (uploadForm.getInsuranceDocuments().isEmpty() || uploadForm.getInsuranceDocuments().stream().allMatch(MultipartFile::isEmpty)) {
+            bindingResult.rejectValue("insuranceDocuments", "insuranceDocuments.empty", "보험 서류를 하나 이상 제출해야 합니다.");
+        }
+
+        if (bindingResult.hasErrors()) {
+            for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                log.info(fieldError.getDefaultMessage());
+                response.put(fieldError.getField(), fieldError.getDefaultMessage());
+            }
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+
 
         // 보상 신청 업로드 처리
         userInsuranceService.applyUploadCompensation(userInsuranceId, loginUser.getId(), uploadForm);
 
         // JSON 형태로 리다이렉트 URL 반환
-        Map<String, String> response = new HashMap<>();
         response.put("redirectUrl", "/insurance/compensation/apply/upload/confirm?userInsuranceId=" + userInsuranceId);
         return ResponseEntity.ok(response);
     }

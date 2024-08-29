@@ -37,54 +37,151 @@
             <label for="startDate" class="form-label">보험 시작 날짜</label>
             <input type="date" class="form-control" id="startDate" name="startDate"
                    th:field="*{startDate}" required>
-            <div class="field-error" th:errors="*{startDate}"></div>
+            <div class="field-error"></div>
         </div>
         <div class="mb-3">
             <label for="endDate" class="form-label">보험 종료 날짜</label>
             <input type="date" class="form-control" id="endDate" name="endDate"
                    th:field="*{endDate}" required>
-            <div class="field-error" th:errors="*{endDate}"></div>
+            <div class="field-error"></div>
         </div>
         <button class="w-100 btn btn-primary btn-lg" type="submit">가입</button>
     </form>
 
     <script>
-        $(document).ready(function() {
-            $('#loadingContainer').load('/fragments/loading.html', function() {
-                $('.loading-container').hide();
-            });
+        $(document).ready(function () {
+            // 로딩 HTML을 동적으로 불러와 삽입하는 함수
+            function includeLoadingHTML() {
+                $('#loadingContainer').load('/fragments/loading.html', function (responseText, textStatus) {
+                    if (textStatus === "success") {
+                        $('.loading-container').hide(); // 처음에는 숨겨둠
+                    } else {
+                        console.error("Failed to load loading.html:", textStatus);
+                    }
+                });
+            }
 
-            $('form').submit(function(event) {
-                event.preventDefault();
+            // 로딩 중 상태를 설정하는 함수
+            function showLoading() {
                 $('.loading-container').show();
+            }
 
+            // 로딩이 끝난 상태를 설정하는 함수
+            function hideLoading() {
+                $('.loading-container').hide();
+                $('.content').show();
+            }
+
+            // 에러 메시지를 표시하는 함수
+            function displayErrors(errors) {
+                console.log('displayErrors function called with errors:', errors);
+
+                if (!errors || errors.length === 0) {
+                    console.log('No errors to display');
+                    return;
+                }
+
+                // 모든 기존의 에러 메시지를 초기화
+                $('.field-error').each(function() {
+                    $(this).html('');
+                });
+
+                // 각 에러를 필드별로 표시
+                errors.forEach(function (error) {
+                    var field = error.field;
+                    var message = error.defaultMessage;
+
+                    if (!field) {
+                        console.log('Field is undefined or null');
+                        return;
+                    }
+
+                    console.log("field:", field);
+                    console.log("message:", message);
+
+                    var inputOrSelect = $('input[name="' + field + '"], select[name="' + field + '"]');
+                    console.log('Selected input or select elements:', inputOrSelect);
+
+                    var closestMb3 = inputOrSelect.closest('.mb-3');
+                    console.log('Closest .mb-3 element:', closestMb3);
+
+                    var fieldError = closestMb3.find('.field-error');
+                    console.log('Found .field-error element:', fieldError);
+
+                    fieldError.html(message).css({ 'display': 'block', 'visibility': 'visible' });
+                    console.log('Set error message:', message);
+                });
+            }
+
+            includeLoadingHTML(); // 로딩 HTML 초기화
+
+            // Form submit을 AJAX로 처리
+            $('form').submit(function (event) {
+                event.preventDefault(); // 폼의 기본 제출 동작을 중지
+
+                showLoading(); // 폼이 제출되면 로딩 화면 표시
+
+                // AJAX 요청 설정
                 $.ajax({
                     url: $(this).attr('action'),
                     method: $(this).attr('method'),
                     data: $(this).serialize(),
                     dataType: 'json',
-                    success: function(response) {
+                    success: function (response) {
+                        console.log('Form submitted successfully:', response);
+
                         if (response.redirectUrl) {
-                            window.location.href = response.redirectUrl;
+                            window.location.href = response.redirectUrl; // 서버 리다이렉트 URL로 이동
                         } else {
-                            $('.loading-container').hide();
+                            hideLoading(); // 리다이렉트 URL이 없으면 로딩 화면 숨기기
                         }
                     },
-                    error: function(jqXHR) {
-                        if (jqXHR.responseJSON && jqXHR.responseJSON.errors) {
-                            displayErrors(jqXHR.responseJSON.errors);
+                    error: function (jqXHR) {
+                        console.error('Error submitting form:', jqXHR);
+
+                        var errors = [];
+
+                        if (jqXHR.responseJSON) {
+                            console.log('jqXHR responseJSON:', jqXHR.responseJSON);
+
+                            for (var key in jqXHR.responseJSON) {
+                                if (jqXHR.responseJSON.hasOwnProperty(key)) {
+                                    errors.push({
+                                        field: key,
+                                        defaultMessage: jqXHR.responseJSON[key]
+                                    });
+                                }
+                            }
+                        } else if (jqXHR.responseText) {
+                            try {
+                                var parsedResponse = JSON.parse(jqXHR.responseText);
+
+                                for (var key in parsedResponse) {
+                                    if (parsedResponse.hasOwnProperty(key)) {
+                                        errors.push({
+                                            field: key,
+                                            defaultMessage: parsedResponse[key]
+                                        });
+                                    }
+                                }
+                            } catch (e) {
+                                console.error('Error parsing responseText:', e);
+                            }
+                        } else {
+                            $('#errorContainer').html('Unknown error occurred.').show();
                         }
-                        $('.loading-container').hide();
+
+                        if (errors.length > 0) {
+                            console.log('Errors extracted:', errors);
+                            displayErrors(errors);
+                        } else {
+                            console.log('No errors to display');
+                        }
+
+                        hideLoading(); // AJAX 요청이 실패한 경우에도 로딩 화면 숨기기
                     }
                 });
             });
-
-            function displayErrors(errors) {
-                $('.field-error').html('');
-                for (const [field, message] of Object.entries(errors)) {
-                    $('[name="' + field + '"]').closest('.mb-3').find('.field-error').html(message);
-                }
-            }
         });
     </script>
 

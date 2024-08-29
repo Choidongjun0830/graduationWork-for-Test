@@ -44,6 +44,7 @@ public class EmailService {
             mimeMessageHelper.setSubject(subject);
             mimeMessageHelper.setText(buildSendAddressEmailContent(userInsurance), true);
             mailSender.send(mimeMessage);
+            log.info("Email Send Success");
         } catch (MessagingException e) {
             e.printStackTrace();
         }
@@ -66,6 +67,7 @@ public class EmailService {
             mimeMessageHelper.setSubject(subject);
             mimeMessageHelper.setText(buildJoinEmailContent(userInsurance), true);
             mailSender.send(mimeMessage);
+            log.info("Email Send Success");
         } catch (MessagingException e) {
             e.printStackTrace();
         }
@@ -86,8 +88,8 @@ public class EmailService {
             mimeMessageHelper.setTo(to);
             mimeMessageHelper.setSubject(subject);
             mimeMessageHelper.setText(buildCompensatingApplyEmailContent(userInsurance), true);
-
             mailSender.send(mimeMessage);
+            log.info("Email send Success");
         } catch (MessagingException e) {
             e.printStackTrace();
         }
@@ -109,8 +111,8 @@ public class EmailService {
             mimeMessageHelper.setTo(to);
             mimeMessageHelper.setSubject(subject);
             mimeMessageHelper.setText(buildAdminCompensatingEmailContent(userInsurance), true);
-
             mailSender.send(mimeMessage);
+            log.info("Email send Success");
         } catch (MessagingException e) {
             e.printStackTrace();
         }
@@ -131,8 +133,8 @@ public class EmailService {
             mimeMessageHelper.setTo(to);
             mimeMessageHelper.setSubject(subject);
             mimeMessageHelper.setText(buildCompensationEmailContent(userInsurance), true);
-
             mailSender.send(mimeMessage);
+            log.info("Email send Success");
         } catch (MessagingException e) {
             e.printStackTrace();
         }

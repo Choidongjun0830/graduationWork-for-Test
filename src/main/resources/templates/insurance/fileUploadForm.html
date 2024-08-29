@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header">
-    <title>보험 신청 서류 업로드</title>
+    <title>보상 신청 서류 업로드</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
@@ -23,70 +23,169 @@
     </style>
 </head>
 <body>
-<div id="loadingContainer"></div>
-    <div class="container" style="max-width: 60%">
-        
-    <div class="py-5 text-center">
-        <h2>보험 신청 서류 업로드</h2>
+    <div id="loadingContainer"></div>
+        <div class="container" style="max-width: 60%">
+
+        <div class="py-5 text-center">
+            <h2>보상 신청 서류 업로드</h2>
+        </div>
+        <form th:action="@{/insurance/compensation/apply/upload(userInsuranceId=${userInsuranceId})}"
+              th:object="${uploadForm}" enctype="multipart/form-data" method="post" novalidate>
+            <div class="mb-3">
+                <label for="insuranceDocuments" class="form-label">파일 업로드</label>
+                <input class="form-control" type="file" multiple="multiple" id="insuranceDocuments" name="insuranceDocuments"
+                       th:field="*{insuranceDocuments}" th:errorclass="field-error">
+                <div class="field-error"></div>
+            </div>
+            <div class="mb-3">
+                <label for="additionalInfo" class="form-label">추가 정보</label>
+                <input type="text" class="form-control" id="additionalInfo" name="additionalInfo" value="상담 후 결정" readonly>
+            </div>
+            <button class="w-100 btn btn-primary btn-lg" type="submit">신청</button>
+        </form>
     </div>
-    <form th:action="@{/insurance/compensation/apply/upload(userInsuranceId=${userInsuranceId})}"
-          th:object="${uploadForm}"
-          enctype="multipart/form-data"
-          method="post">
-        <div class="mb-3">
-            <label for="insuranceDocuments" class="form-label">파일 업로드</label>
-            <input class="form-control" type="file" multiple="multiple" id="insuranceDocuments" name="insuranceDocuments">
-        </div>
-        <div class="mb-3">
-            <label for="additionalInfo" class="form-label">추가 정보</label>
-            <input type="text" class="form-control" id="additionalInfo" name="additionalInfo" value="상담 후 결정" readonly>
-        </div>
-        <button class="w-100 btn btn-primary btn-lg" type="submit">신청</button>
-    </form>
-</div>
 
-<script>
-    $(document).ready(function() {
-        $('#loadingContainer').load('/fragments/loading.html', function() {
-            $('.loading-container').hide();
-        });
-
-        $('form').submit(function(event) {
-            event.preventDefault();
-            $('.loading-container').show();
-
-            var formData = new FormData(this); // FormData 객체 생성
-
-            $.ajax({
-                url: $(this).attr('action'),
-                method: $(this).attr('method'),
-                data: formData,
-                processData: false, // 파일 업로드를 위해 필요
-                contentType: false, // 파일 업로드를 위해 필요
-                dataType: 'json', // JSON 응답 기대
-                success: function(response) {
-                    if (response.redirectUrl) {
-                        window.location.href = response.redirectUrl; // 서버에서 받은 redirectUrl로 이동
+    <script>
+        $(document).ready(function () {
+            // 로딩 HTML을 동적으로 불러와 삽입하는 함수
+            function includeLoadingHTML() {
+                $('#loadingContainer').load('/fragments/loading.html', function (responseText, textStatus) {
+                    if (textStatus === "success") {
+                        $('.loading-container').hide(); // 처음에는 숨겨둠
                     } else {
-                        $('.loading-container').hide(); // 리디렉션 URL이 없으면 로딩 화면 숨기기
+                        console.error("Failed to load loading.html:", textStatus);
                     }
-                },
-                error: function(jqXHR) {
-                    if (jqXHR.responseJSON && jqXHR.responseJSON.errors) {
-                        displayErrors(jqXHR.responseJSON.errors);
-                    }
-                    $('.loading-container').hide(); // AJAX 요청이 실패해도 로딩 화면 숨기기
+                });
+            }
+
+            // 로딩 중 상태를 설정하는 함수
+            function showLoading() {
+                $('.loading-container').show();
+            }
+
+            // 로딩이 끝난 상태를 설정하는 함수
+            function hideLoading() {
+                $('.loading-container').hide();
+                $('.content').show();
+            }
+
+            // 에러 메시지를 표시하는 함수
+            function displayErrors(errors) {
+                console.log('displayErrors function called with errors:', errors);
+
+                if (!errors || errors.length === 0) {
+                    console.log('No errors to display');
+                    return;
                 }
+
+                // 모든 기존의 에러 메시지를 초기화
+                $('.field-error').each(function() {
+                    $(this).html('');
+                });
+
+                // 각 에러를 필드별로 표시
+                errors.forEach(function (error) {
+                    var field = error.field;
+                    var message = error.defaultMessage;
+
+                    if (!field) {
+                        console.log('Field is undefined or null');
+                        return;
+                    }
+
+                    console.log("field:", field);
+                    console.log("message:", message);
+
+                    var inputOrSelect = $('input[name="' + field + '"], select[name="' + field + '"]');
+                    console.log('Selected input or select elements:', inputOrSelect);
+
+                    var closestMb3 = inputOrSelect.closest('.mb-3');
+                    console.log('Closest .mb-3 element:', closestMb3);
+
+                    var fieldError = closestMb3.find('.field-error');
+                    console.log('Found .field-error element:', fieldError);
+
+                    fieldError.html(message).css({ 'display': 'block', 'visibility': 'visible' });
+                    console.log('Set error message:', message);
+                });
+            }
+
+            includeLoadingHTML(); // 로딩 HTML 초기화
+
+            // Form submit을 AJAX로 처리
+            $('form').submit(function (event) {
+                event.preventDefault(); // 폼의 기본 제출 동작을 중지
+
+                showLoading(); // 폼이 제출되면 로딩 화면 표시
+
+                // FormData 객체 생성
+                var formData = new FormData(this);
+
+                // AJAX 요청 설정
+                $.ajax({
+                    url: $(this).attr('action'),
+                    method: $(this).attr('method'),
+                    data: formData,
+                    processData: false, // 데이터를 자동으로 처리하지 않도록 설정
+                    contentType: false, // 기본 Content-Type 설정 사용 안 함
+                    dataType: 'json',
+                    success: function (response) {
+                        console.log('Form submitted successfully:', response);
+
+                        if (response.redirectUrl) {
+                            window.location.href = response.redirectUrl; // 서버 리다이렉트 URL로 이동
+                        } else {
+                            hideLoading(); // 리다이렉트 URL이 없으면 로딩 화면 숨기기
+                        }
+                    },
+                    error: function (jqXHR) {
+                        console.error('Error submitting form:', jqXHR);
+
+                        var errors = [];
+
+                        if (jqXHR.responseJSON) {
+                            console.log('jqXHR responseJSON:', jqXHR.responseJSON);
+
+                            for (var key in jqXHR.responseJSON) {
+                                if (jqXHR.responseJSON.hasOwnProperty(key)) {
+                                    errors.push({
+                                        field: key,
+                                        defaultMessage: jqXHR.responseJSON[key]
+                                    });
+                                }
+                            }
+                        } else if (jqXHR.responseText) {
+                            try {
+                                var parsedResponse = JSON.parse(jqXHR.responseText);
+
+                                for (var key in parsedResponse) {
+                                    if (parsedResponse.hasOwnProperty(key)) {
+                                        errors.push({
+                                            field: key,
+                                            defaultMessage: parsedResponse[key]
+                                        });
+                                    }
+                                }
+                            } catch (e) {
+                                console.error('Error parsing responseText:', e);
+                            }
+                        } else {
+                            $('#errorContainer').html('Unknown error occurred.').show();
+                        }
+
+                        if (errors.length > 0) {
+                            console.log('Errors extracted:', errors);
+                            displayErrors(errors);
+                        } else {
+                            console.log('No errors to display');
+                        }
+
+                        hideLoading(); // AJAX 요청이 실패한 경우에도 로딩 화면 숨기기
+                    }
+                });
             });
         });
+    </script>
 
-        function displayErrors(errors) {
-            $('.field-error').html('');
-            for (const [field, message] of Object.entries(errors)) {
-                $('[name="' + field + '"]').closest('.mb-3').find('.field-error').html(message);
-            }
-        }
-    });
-</script>
 </body>
 </html>
