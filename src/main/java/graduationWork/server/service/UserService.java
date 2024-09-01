@@ -88,4 +88,9 @@ public class UserService {
     public Boolean checkLoginIdUnique(String loginId) {
         return userRepository.existsByLoginId(loginId); //존재하면 true
     }
+
+    public String getAdminWalletAddress() {
+        User admin = userRepository.findAdmin();
+        return admin.getWalletAddress();
+    }
 }

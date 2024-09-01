@@ -62,4 +62,10 @@ public class UserRepository {
         User findUser = findByLoginId(loginId);
         return findUser != null;
     }
+
+    public User findAdmin() {
+        return em.createQuery("select u from User u where u.role = :role", User.class)
+                .setParameter("role", "ROLE_ADMIN")
+                .getSingleResult();
+    }
 }

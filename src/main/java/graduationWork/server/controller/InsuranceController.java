@@ -283,9 +283,9 @@ public class InsuranceController {
         User user = userInsurance.getUser();
 
         if (option == CompensationOption.OPTION_AUTO) {
-            String amount = userInsurance.getCompensationAmount();
             String userWalletAddress = user.getWalletAddress();
 
+            CompensationDto fillCompensationAmount = web3jClient.fillCompensationAmount(String.valueOf(compensationAmountInWei));
             CompensationDto compensationDto = web3jClient.sendCompensation(userInsurance.getUser().getWalletAddress(), String.valueOf(compensationAmountInWei));
             Long timestamp = compensationDto.getTimestamp();
             String hash = compensationDto.getHash();
