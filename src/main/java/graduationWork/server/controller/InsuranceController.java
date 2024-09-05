@@ -144,6 +144,7 @@ public class InsuranceController {
 
         UserInsurance userInsurance = userInsuranceService.findOne(userInsuranceId);
 
+        model.addAttribute("contractAddress", contractAddress);
         model.addAttribute("userInsurance", userInsurance);
 
         return "insurance/joinApplySuccess";

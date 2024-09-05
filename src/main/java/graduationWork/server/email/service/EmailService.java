@@ -28,6 +28,9 @@ public class EmailService {
     @Value("${spring.mail.username}")
     private String sender;
 
+    @Value("${etherscan.contract.address}")
+    private String contractAddress;
+
     @Transactional
     public void sendAddressEmail(Long userInsuranceId, String subject) {
 
@@ -149,7 +152,7 @@ public class EmailService {
                 .append("<div style=\"border: 1px solid #ddd; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); padding: 20px;\">")
                 .append("<h2 style=\"text-align: center; color: #007bff;\">보험 가입 신청 완료</h2>")
                 .append("<h3 style=\"text-align: center; color: #007bff;\">아래 주소로 보험료를 입금해주세요.</h3>")
-                .append("<h3 style=\"text-align: center; color: #007bff;\">0xE564Bd624b37C8a91E40C0fBb9D9a4058d7F6981</h3>")
+                .append("<h3 style=\"text-align: center; color: #007bff;\">" + contractAddress + "</h3>")
                 .append("<div style=\"border-top: 1px solid #ddd; padding-top: 10px;\">")
                 .append("<p><strong>보험명:</strong> ").append(userInsurance.getInsurance().getName()).append("</p>")
                 .append("<p><strong>회원명:</strong> ").append(userInsurance.getUser().getUsername()).append("</p>")

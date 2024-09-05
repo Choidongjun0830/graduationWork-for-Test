@@ -15,8 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-//import org.springframework.security.core.Authentication;
-//import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,6 +33,9 @@ public class UserController {
     private final UserInsuranceService userInsuranceService;
     private final InsuranceRepository insuranceRepository;
     private final PasswordEncoder passwordEncoder;
+
+    @Value("${etherscan.contract.address}")
+    private String contractAddress;
 
     @GetMapping("/join")
     public String joinForm(@ModelAttribute MemberJoinForm memberJoinForm) {
@@ -157,6 +159,7 @@ public class UserController {
         Long loginUserId = loginUser.getId();
 
         List<UserInsurance> userInsurances = userInsuranceService.findUserInsurances(loginUserId);
+        model.addAttribute("contractAddress", contractAddress);
         model.addAttribute("userInsurances", userInsurances);
         return "users/insuranceListsForUser";
     }
