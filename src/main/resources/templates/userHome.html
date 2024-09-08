@@ -1,36 +1,37 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header">
-    <title>졸업 작품</title>
+    <title>Travée</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
 
 <div class="bg">
     <div class="search-container">
-        <h2>항공편 지연, 취소 보상 조회</h2>
+        <h2 th:text="#{flight.delay.cancel.compensation.title}">항공편 지연 및 취소 보상 조회</h2>
         <form th:action="@{/}" th:object="${delayForm}" method="post" novalidate>
             <div>
-                <label for="flightNumber" class="form-label">항공편명</label>
-                <input type="text" class="form-control" id="flightNumber" name="flightNumber" th:field="*{flightNum}" required>
+                <label for="flightNumber" class="form-label" th:text="#{flight.number}">항공편명</label>
+                <input type="text" class="form-control" id="flightNumber" name="flightNumber" th:field="*{flightNum}" th:placeholder="#{flight.number}" required>
                 <div class="field-error" th:errors="*{flightNum}"></div>
             </div>
             <div>
-                <label for="departureDate" class="form-label">예정 출발 날짜</label>
-                <input type="datetime-local" class="form-control" id="departureDate" name="departureDate" th:field="*{departureDate}" required>
+                <label for="departureDate" class="form-label" th:text="#{departure.date}">예정 출발 날짜</label>
+                <input type="text" th:placeholder="#{departure.date.placeholder}" class="form-control" id="departureDate" name="departureDate" th:field="*{departureDate}" required>
                 <div class="field-error" th:errors="*{departureDate}"></div>
             </div>
-            <button class="btn btn-primary btn-sm" type="submit">조회</button>
+            <button class="btn btn-primary btn-sm" type="submit" th:text="#{search}">조회</button>
         </form>
     </div>
 
     <div class="d-flex justify-content-center" style="margin-top: 50px">
         <button class="btn btn-apply-row btn-box-shadow" type="button" style="width: 200px; margin-right: 30px"
-                th:onclick="|location.href='@{/insurance/new}'|">
+                th:onclick="|location.href='@{/insurance/new}'|" th:text="#{insurance.apply}">
             보험 가입 신청
         </button>
         <button class="btn btn-apply-row btn-box-shadow" type="button" style="width: 200px; margin-left: 30px"
-                th:onclick="|location.href='@{/user/info}'|">
+                th:onclick="|location.href='@{/user/info}'|" th:text="#{my.info}">
             내 정보
         </button>
     </div>
@@ -68,7 +69,7 @@
             </div>
         </div>
         <h4 class="text-center" style="font-weight: bold; margin: 50px 0">보험금 미지급 사유</h4>
-        <ul class="insurance-exclusions" style = "margin-bottom: 100px;">
+        <ul class="insurance-exclusions">
             <li>계약자, 피보험자, 보험수익자가 고의로 피보험자를 해친 경우</li>
             <li>임신, 출산(제왕절개 포함), 산후기 (단, 회사가 보장하는 보험금 지급사유와 보장개시일부터 2년이 지난 후에 발생한 습관성 유산, 불임 및 인공수정 관련 합병증으로 인한 경우에는 보험금을 지급합니다.)</li>
             <li>피보험자의 질병</li>
@@ -82,6 +83,41 @@
         </ul>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/fr.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ja.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/zh.js"></script>
+<script th:inline="javascript">
+    // 서버에서 전달된 언어 코드
+    const userLang = /*[[${#locale.language}]]*/ 'ko';
+
+    // 언어에 따라 로케일 설정
+    const localeMap = {
+        "ko": "ko",
+        "en": "default",
+        "fr": "fr",
+        "ja": "ja",
+        "zh": "zh"
+    };
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // 사용자 언어에 따른 로케일 설정
+        const localeSetting = localeMap[userLang] || "default";
+
+        flatpickr("#departureDate", {
+            enableTime: true,
+            position: "below",
+            dateFormat: "Y-m-d\\TH:i",
+            altInput: true,
+            altFormat: "Y-m-d H:i",
+            locale: {
+                ...flatpickr.l10ns[localeSetting], // 사용자 로케일 설정
+                firstDayOfWeek: 1 // 한 주의 시작일을 월요일로 설정
+            }
+        });
+    });
+</script>
 </body>
 <footer th:replace="fragments/footer :: footer"></footer>
 </html>

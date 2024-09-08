@@ -17,7 +17,7 @@
                     <h4 class="card-title">국내 여행</h4>
                     <hr class="my-4">
                     <p class="card-text" style="margin-bottom: 30px">국내 여행 계획을 세우고 계신가요?</p>
-                    <img src="/images/gyeongbokgung.png" alt="Local img" style="width: 100px; height: 100px">
+                    <img th:src="@{'/static/images/landmark_' + ${#locale.language} + '.png'}" style="width: 100px; height: 100px">
                     <a th:href="@{'/insurance/new/domestic'}" class="stretched-link"></a>
                 </div>
             </div>

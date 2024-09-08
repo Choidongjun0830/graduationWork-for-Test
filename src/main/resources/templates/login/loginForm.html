@@ -11,23 +11,23 @@
             margin-bottom: 1rem;
         }
     </style>
-    <title>졸업 작품</title>
+    <title>Travée</title>
 </head>
 <body>
 <div class="container" style="max-width: 30%">
     <div class="py-5 text-center">
-        <h2>로그인</h2>
+        <h2 th:text="#{login}">로그인</h2>
     </div>
-    <h4 class="mb-3">로그인 정보 입력</h4>
+    <h4 class="mb-3" th:text="#{login.info.input}">로그인 정보 입력</h4>
     <form action = "@{/loginProc}" th:action th:object="${loginForm}" method="post">
         <div class="mb-3">
-            <label for="inputLoginId" class="form-label">아이디</label>
+            <label for="inputLoginId" class="form-label">ID</label>
             <input type="text" class="form-control" id="inputLoginId" th:field="*{loginId}" placeholder="ID">
             <div class="field-error" th:errors="*{loginId}"></div>
         </div>
         <div class="mb-3">
-            <label for="inputPassword5" class="form-label">비밀번호</label>
-            <input type="password" id="inputPassword5" class="form-control" th:field="*{password}" placeholder="Password" aria-describedby="passwordHelpBlock">
+            <label for="inputPassword5" class="form-label" th:text="#{password}">비밀번호</label>
+            <input type="password" id="inputPassword5" class="form-control" th:field="*{password}" th:placeholder="#{password}" aria-describedby="passwordHelpBlock">
             <div class="field-error" th:errors="*{password}"></div>
         </div>
         <div th:if="${#fields.hasGlobalErrors()}">
@@ -36,17 +36,17 @@
     <hr class="my-4">
     <div class="row">
         <div class="col m">
-            <button type="submit" class="w-100 btn btn-primary btn-lg">로그인</button>
+            <button type="submit" class="w-100 btn btn-primary btn-lg" th:text="#{login}">로그인</button>
         </div>
         <div class="col m">
             <button type="button"
                 class="w-100 btn btn-secondary btn-lg"
                 onclick="location.href='home.html'"
-                th:onclick="|location.href='@{/}'|">취소</button>
+                th:onclick="|location.href='@{/}'|" th:text="#{cancel}">취소</button>
         </div>
     </div>
     </form>
   </div>
-<footer th:replace="fragments/footer :: footer"></footer>
 </body>
+<footer th:replace="fragments/footer :: footer"></footer>
 </html>
