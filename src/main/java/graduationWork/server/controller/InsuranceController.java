@@ -35,6 +35,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static graduationWork.server.domain.QUserInsurance.userInsurance;
+
 @Controller
 @Slf4j
 @RequiredArgsConstructor
@@ -187,6 +189,11 @@ public class InsuranceController {
                                     Model model,
                                     HttpSession session) {
 
+        LocalDate occurrenceDate = form.getOccurrenceDate();
+        if (!isDateValid(occurrenceDate, userInsuranceId)) {
+            bindingResult.rejectValue("occurrenceDate", "InvalidOccurrenceDate", "발생 일자가 가입 기간에 속하지 않습니다. 다시 입력해주세요.");
+        }
+
         if(bindingResult.hasErrors()) {
             UserInsurance userInsurance = userInsuranceService.findOne(userInsuranceId);
             model.addAttribute("userInsurance", userInsurance);
@@ -226,10 +233,15 @@ public class InsuranceController {
         model.addAttribute("userInsuranceId", userInsuranceId);
         Map<String, String> response = new HashMap<>();
 
+        LocalDate localDateDepartureDate = delayForm.getDepartureDate().toLocalDate();
+        LocalDate occurrenceDate = userInsuranceService.findOne(userInsuranceId).getOccurrenceDate();
+        if(!occurrenceDate.isEqual(localDateDepartureDate)) {
+            bindingResult.rejectValue("departureDate", "InvalidDepartureDate", "발생 일자와 항공편의 예정 출발 시간이 일치하지 않습니다.");
+        }
+
         // 유효성 검사
         if (bindingResult.hasErrors()) {
             for (FieldError fieldError : bindingResult.getFieldErrors()) {
-                log.info(bindingResult.getFieldError().getDefaultMessage());
                 response.put(fieldError.getField(), fieldError.getDefaultMessage());
             }
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
@@ -393,5 +405,11 @@ public class InsuranceController {
         model.addAttribute("overseasInsurances", overseasInsurances);
 
         return "insurance/overseaInsuranceLists";
+    }
+
+    private boolean isDateValid(LocalDate date, Long userInsuranceId) {
+        UserInsurance userInsurance = userInsuranceService.findOne(userInsuranceId);
+        return !date.isBefore(userInsurance.getStartDate()) // 시작일과 같거나 이후
+                && !date.isAfter(userInsurance.getEndDate()); // 종료일과 같거나 이전
     }
 }
