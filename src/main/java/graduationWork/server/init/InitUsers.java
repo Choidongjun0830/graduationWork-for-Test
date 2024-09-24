@@ -16,12 +16,12 @@ public class InitUsers {
 
     private final InitUserService initUserService;
 
-    @PostConstruct
-    public void init() {
-        initUserService.dbInit1();
-        initUserService.dbInit2();
-        initUserService.dbInit3();
-    }
+//    @PostConstruct
+//    public void init() {
+//        initUserService.dbInit1();
+//        initUserService.dbInit2();
+//        initUserService.dbInit3();
+//    }
 
     @Component
     @Transactional

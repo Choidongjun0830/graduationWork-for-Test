@@ -27,7 +27,6 @@ public class User {
     private String loginId;
 
     @Column(nullable = false)
-//    @Length(min=8, max=20)
     private String password;
 
     private String username;

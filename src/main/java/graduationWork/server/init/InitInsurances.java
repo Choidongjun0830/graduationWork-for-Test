@@ -16,13 +16,13 @@ public class InitInsurances {
 
     private final InitInsuranceService initInsuranceService;
 
-    @PostConstruct
-    public void init() {
-        initInsuranceService.domesticInit1();
-        initInsuranceService.domesticInit2();
-        initInsuranceService.overseaInit1();
-        initInsuranceService.overseaInit2();
-    }
+//    @PostConstruct
+//    public void init() {
+//        initInsuranceService.domesticInit1();
+//        initInsuranceService.domesticInit2();
+//        initInsuranceService.overseaInit1();
+//        initInsuranceService.overseaInit2();
+//    }
 
     @Component
     @Transactional
