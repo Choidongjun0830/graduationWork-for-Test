@@ -11,11 +11,11 @@
     <h2>403 - Forbidden</h2>
   </div>
   <div>
-    <p>죄송합니다. 접근 권한이 없습니다.</p>
+    <p th:text="#{access.denied}">죄송합니다. 접근 권한이 없습니다.</p>
   </div>
   <hr class="my-4">
   <div class="d-flex justify-content-end">
-    <button class="btn btn-primary" onclick="window.history.back();">돌아가기</button>
+    <button class="btn btn-primary" onclick="window.history.back();" th:text="#{go.back}">돌아가기</button>
   </div>
 </div>
 </body>

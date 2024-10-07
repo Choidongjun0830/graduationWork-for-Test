@@ -50,48 +50,48 @@
 <div class="wrapper">
     <div class="receipt-container">
         <div class="receipt-header">
-            <h4>보험 보상 내역</h4>
+            <h4 th:text="#{insurance.claim.details}">보험 보상 내역</h4>
         </div>
 
         <div class="transaction-detail">
             <div>
-                <span class="detail-label">이름:</span>
+                <span class="detail-label" th:text="#{navbar.name}">이름: </span>
                 <span class="detail-value" th:text="${transaction.name}"></span>
             </div>
         </div>
         <div class="transaction-detail">
             <div>
-                <span class="detail-label">시간:</span>
+                <span class="detail-label" th:text="#{time.colon}">시간: </span>
                 <span class="detail-value" th:text="${#dates.format(transaction.timestamp * 1000, 'yyyy-MM-dd HH:mm:ss')}"></span>
             </div>
         </div>
         <div class="transaction-detail">
             <div>
-                <span class="detail-label">From:</span>
+                <span class="detail-label">From: </span>
                 <span class="detail-value" th:text="${transaction.fromAddress}"></span>
             </div>
         </div>
         <div class="transaction-detail">
             <div>
-                <span class="detail-label">To:</span>
+                <span class="detail-label">To: </span>
                 <span class="detail-value" th:text="${transaction.toAddress}"></span>
             </div>
         </div>
         <div class="transaction-detail">
             <div>
-                <span class="detail-label">사유:</span>
+                <span class="detail-label" th:text="#{reason.colon}">사유: </span>
                 <span class="detail-value" th:text="${transaction.userInsurance.reason}"></span>
             </div>
         </div>
         <div class="transaction-detail">
             <div>
-                <span class="detail-label">보상 금액(원):</span>
+                <span class="detail-label" th:text="#{compensation.amount.krw.colon}">보상 금액 (원): </span>
                 <span class="detail-value" th:text="${transaction.userInsurance.compensationAmount}"></span>
             </div>
         </div>
         <div class="transaction-detail">
             <div>
-                <span class="detail-label">보상 금액(ETH):</span>
+                <span class="detail-label" th:text="#{compensation.amount.eth.colon}">보상 금액 (ETH): </span>
                 <span class="detail-value" th:text="${transaction.userInsurance.compensationAmountEther}"></span>
             </div>
         </div>
@@ -99,7 +99,7 @@
         <div class="separator"></div>
 
         <div class="d-flex justify-content-end mt-4">
-            <a th:href="${receiptUrl}" class="btn btn-primary btn-sm me-2 custom-btn d-flex justify-content-center align-items-center" style="margin-right: 20px">Etherscan에서 보기</a>
+            <a th:href="${receiptUrl}" class="btn btn-primary btn-sm me-2 custom-btn d-flex justify-content-center align-items-center" style="margin-right: 20px" th:text="#{view.on.etherscan}">Etherscan에서 보기</a>
             <a class="navbar-brand" th:href="@{/user/info}">
                 <img src="/images/return-btn-removebg-preview.png" alt="Travace Logo" style="height: 52px;">
             </a>

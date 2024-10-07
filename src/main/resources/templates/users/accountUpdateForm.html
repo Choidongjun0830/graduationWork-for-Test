@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header">
-  <title>졸업 작품</title>
+  <title>Travée</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <style>
     div.m {
@@ -16,26 +16,27 @@
 <body>
 <div class="container" style="max-width: 35%">
   <div class="py-5 text-center">
-    <h2>가상 화폐 지갑 수정</h2>
+    <h2 th:text="#{metamask.wallet.address.update}">MetaMask 지갑 주소 변경</h2>
   </div>
-  <h4 class="mb-3">가상 화폐 지갑 입력</h4>
+  <h4 class="mb-3" th:text="#{metamask.address.input}">MetaMask 지갑 주소 입력</h4>
   <form action = "" th:action th:object="${walletUpdateForm}" method="post" novalidate>
     <div class="mb-3">
-      <label for="inputWalletAccount" class="form-label">가상 화폐 지갑</label>
+      <label for="inputWalletAccount" class="form-label" th:text="#{metamask.wallet.address}">MetaMask 지갑 주소</label>
       <input type="text" id="inputWalletAccount" class="form-control" aria-describedby="inputWalletAccountBlock"
-             th:field="*{accountAddress}" th:errorclass="field-error" placeholder="가상 화폐 지갑">
+             th:field="*{accountAddress}" th:errorclass="field-error" th:placeholder="#{metamask.wallet.address}">
       <div class="field-error" th:errors="*{accountAddress}"></div>
     </div>
     <hr class="my-4">
     <div class="row">
       <div class="col m">
-        <button type="submit" class="w-100 btn btn-primary btn-lg">수정 완료</button>
+        <button type="submit" class="w-100 btn btn-primary btn-lg" th:text="#{update.complete}">변경 완료</button>
       </div>
       <div class="col m">
         <button type="button"
                 class="w-100 btn btn-secondary btn-lg"
                 onclick="location.href='home.html'"
-                th:onclick="|location.href='@{/user/info}'|">취소</button>
+                th:onclick="|location.href='@{/user/info}'|"
+                th:text="#{cancel}">취소</button>
       </div>
     </div>
   </form>

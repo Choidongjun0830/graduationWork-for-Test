@@ -25,70 +25,70 @@
 <body>
 <div class="container" style="max-width: 60%">
     <div class="py-5 text-center">
-        <h2>보험 상세 정보</h2>
+        <h2 th:text="#{insurance.details}">보험 상세 정보</h2>
     </div>
     <div class="field">
-        <span class="field-label"><strong>보험 이름:</strong></span>
+        <span class="field-label"><strong th:text="#{insurance.product.colon}">보험 상품: </strong></span>
         <span th:text="${userInsurance.insurance.name}"></span>
     </div>
     <div class="field">
-        <span class="field-label"><strong>회원 이름:</strong></span>
+        <span class="field-label"><strong th:text="#{member.name.colon}">회원명: </strong></span>
         <span th:text="${userInsurance.user.username}"></span>
     </div>
     <div class="field">
-        <span class="field-label"><strong>보험 가입 날짜:</strong></span>
+        <span class="field-label"><strong th:text="#{insurance.signup.date.colon}">보험 가입일: </strong></span>
         <span th:text="${#temporals.format(userInsurance.registerDate, 'yyyy-MM-dd')}"></span>
     </div>
     <div class="field">
-        <span class="field-label"><strong>보험 시작 날짜:</strong></span>
+        <span class="field-label"><strong th:text="#{insurance.start.date.colon}">보험 시작일: </strong></span>
         <span th:text="${#temporals.format(userInsurance.startDate, 'yyyy-MM-dd')}"></span>
     </div>
     <div class="field">
-        <span class="field-label"><strong>보험 만료일:</strong></span>
+        <span class="field-label"><strong th:text="#{insurance.end.date.colon}">보험 만료일: </strong></span>
         <span th:text="${#temporals.format(userInsurance.endDate, 'yyyy-MM-dd')}"></span>
     </div>
     <div class="field">
-        <span class="field-label"><strong>가입 보험료:</strong></span>
+        <span class="field-label"><strong th:text="#{insurance.premium.colon}">가입 보험료: </strong></span>
         <span th:text="${userInsurance.registerPrice}"></span>
     </div>
     <div class="field">
-        <span class="field-label"><strong>보험 상태:</strong></span>
-        <span th:if="${userInsurance.status.name() == 'WAITING_JOIN'}">입금 대기중</span>
-        <span th:if="${userInsurance.status.name() == 'JOINED'}">가입 완료</span>
-        <span th:if="${userInsurance.status.name() == 'CANCELLED'}">취소됨</span>
+        <span class="field-label"><strong th:text="#{insurance.status.colon}">보험 상태: </strong></span>
+        <span th:if="${userInsurance.status.name() == 'WAITING_JOIN'}" th:text="#{payment.pending}">납부 대기중</span>
+        <span th:if="${userInsurance.status.name() == 'JOINED'}" th:text="#{insurance.completed}">가입 완료</span>
+        <span th:if="${userInsurance.status.name() == 'CANCELLED'}" th:text="#{cancel}">취소</span>
     </div>
     <div class="field">
-        <span class="field-label"><strong>보상 상태:</strong></span>
-        <span th:if="${userInsurance.compensationStatus.name() == 'NOT_SUBMITTED'}">미신청</span>
-        <span th:if="${userInsurance.compensationStatus.name() == 'IMPOSSIBLE'}">신청 불가</span>
-        <span th:if="${userInsurance.compensationStatus.name() == 'COMPENSATING'}">보상 진행중</span>
-        <span th:if="${userInsurance.compensationStatus.name() == 'COMPENSATED'}">보상 완료</span>
+        <span class="field-label"><strong th:text="#{compensation.status.colon}">보상 상태: </strong></span>
+        <span th:if="${userInsurance.compensationStatus.name() == 'NOT_SUBMITTED'}" th:text="#{not.applied}">미신청</span>
+        <span th:if="${userInsurance.compensationStatus.name() == 'IMPOSSIBLE'}" th:text="#{application.not.allowed}">신청 불가</span>
+        <span th:if="${userInsurance.compensationStatus.name() == 'COMPENSATING'}" th:text="#{compensation.in.progress}">보상 진행중</span>
+        <span th:if="${userInsurance.compensationStatus.name() == 'COMPENSATED'}" th:text="#{compensation.complete}">보상 완료</span>
     </div>
     <div th:if="${userInsurance.compensationStatus.name() != 'NOT_SUBMITTED'}">
         <div class="field">
-            <span class="field-label"><strong>보상 옵션:</strong></span>
-            <span th:if="${userInsurance.compensationOption != null && userInsurance.compensationOption.name() == 'OPTION_EMAIL'}">상담 후 결정</span>
-            <span th:if="${userInsurance.compensationOption != null && userInsurance.compensationOption.name() == 'OPTION_AUTO'}">자동</span>
+            <span class="field-label"><strong th:text="#{compensation.option.colon}">보상 옵션: </strong></span>
+            <span th:if="${userInsurance.compensationOption != null && userInsurance.compensationOption.name() == 'OPTION_EMAIL'}" th:text="#{consultation.decision}">상담 후 결정</span>
+            <span th:if="${userInsurance.compensationOption != null && userInsurance.compensationOption.name() == 'OPTION_AUTO'}" th:text="#{automatic}">자동</span>
         </div>
 
         <div class="field">
-            <span class="field-label"><strong>사유:</strong></span>
+            <span class="field-label"><strong th:text="#{reason.colon}">사유: </strong></span>
             <span th:text="${userInsurance.reason}">사유 입력 안됨</span>
         </div>
         <div class="field">
-            <span class="field-label"><strong>발생 날짜:</strong></span>
+            <span class="field-label"><strong th:text="#{event.date.colon}">발생일: </strong></span>
             <span th:text="${#temporals.format(userInsurance.occurrenceDate, 'yyyy-MM-dd')}">발생 날짜 입력 안됨</span>
         </div>
         <div class="field">
-            <span class="field-label"><strong>신청 날짜:</strong></span>
+            <span class="field-label"><strong th:text="#{application.date.colon}">신청일: </strong></span>
             <span th:text="${#temporals.format(userInsurance.applyDate, 'yyyy-MM-dd')}">신청 날짜 입력 안됨</span>
         </div>
         <div class="field">
-            <span class="field-label"><strong>보상 금액:</strong></span>
+            <span class="field-label"><strong th:text="#{compensation.amount.colon}">보상 금액: </strong></span>
             <span th:text="${userInsurance.compensationAmount}">보상 금액 입력 안됨</span>
         </div>
         <div class="field">
-            <span class="field-label"><strong>첨부 파일:</strong></span>
+            <span class="field-label"><strong th:text="#{attached.file.colon}">첨부 파일: </strong></span>
             <ul>
                 <li th:each="file : ${userInsurance.files}">
                     <a th:href="@{'/download/files/' + ${file.id}}" th:text="${file.uploadFileName}">파일명</a>
@@ -100,12 +100,12 @@
         <form th:action="@{/user/insurances/{id}/compensation/receipt(id=${userInsurance.id})}" method="get"
               th:if="${userInsurance?.status?.name() != 'WAITING_JOIN' and userInsurance?.compensationStatus?.name() == 'COMPENSATED'}" class="me-2">
             <input type="hidden" name="userInsuranceId" th:value="${userInsurance?.id}" />
-            <button class="btn btn-row" type="submit">보험 보상 영수증</button>
+            <button class="btn btn-row" type="submit" th:text="#{compensation.receipt}">보상금 지급 영수증</button>
         </form>
         <form th:action="@{/user/insurances/{id}/deposit/receipt(id=${userInsurance.id})}" method="get"
               th:if="${userInsurance?.status?.name() != 'WAITING_JOIN'}" class="me-2">
             <input type="hidden" name="userInsuranceId" th:value="${userInsurance?.id}" />
-            <button class="btn btn-row" type="submit">가입료 입금 영수증</button>
+            <button class="btn btn-row" type="submit" th:text="#{premium.receipt}">가입료 납부 영수증</button>
         </form>
         <a class="navbar-brand" th:href="@{/user/info}">
             <img src="/images/return-btn-removebg-preview.png" alt="return-logo" style="height: 45px;">

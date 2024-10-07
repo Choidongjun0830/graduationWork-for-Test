@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header">
-  <title>졸업 작품</title>
+  <title>Travée</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <style>
     div.m {
@@ -16,29 +16,29 @@
 <body>
 <div class="container" style="max-width: 35%">
   <div class="py-5 text-center">
-    <h2>주소 변경</h2>
+    <h2 th:text="#{address.update}">주소 변경</h2>
   </div>
-  <h4 class="mb-3">주소 정보 입력</h4>
+  <h4 class="mb-3" th:text="#{address.info.input}">주소 정보 입력</h4>
   <form action = "" th:action th:object="${addressUpdateForm}" method="post">
 <!--    <div th:if="${#fields.hasGlobalErrors()}">-->
 <!--      <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>-->
 <!--    </div>-->
     <div class="mb-3">
-      <label class="form-label">주소</label>
+      <label class="form-label" th:text="#{address}">주소</label>
       <div class="input-group-custom">
         <input type="text" id="inputZipCode" class="group-form-control"
-               th:field="*{zipCode}" th:errorclass="field-error" placeholder="우편번호" readonly>
-        <button type="button" class="btn group-btn-primary" onclick="execDaumPostcode()">주소 찾기</button>
+               th:field="*{zipCode}" th:errorclass="field-error" th:placeholder="#{postal.code}" readonly>
+        <button type="button" class="btn group-btn-primary" onclick="execDaumPostcode()" th:text="#{find.address}">주소 찾기</button>
       </div>
       <div class="field-error" th:if="${#fields.hasErrors('zipCode')}" th:errors="*{zipCode}"></div>
       <div class="mt-2">
         <input type="text" id="inputRoadAddress" class="form-control"
-               th:field="*{roadAddress}" th:errorclass="field-error" placeholder="도로명 주소" readonly>
+               th:field="*{roadAddress}" th:errorclass="field-error" th:placeholder="#{road.address}" readonly>
         <div class="field-error" th:if="${#fields.hasErrors('roadAddress')}" th:errors="*{roadAddress}"></div>
       </div>
       <div class="mt-2">
         <input type="text" id="inputDetailAddress" class="form-control"
-               th:field="*{detailAddress}" th:errorclass="field-error" placeholder="상세 주소">
+               th:field="*{detailAddress}" th:errorclass="field-error" th:placeholder="#{detailed.address}">
         <div class="field-error" th:if="${#fields.hasErrors('detailAddress')}" th:errors="*{detailAddress}"></div>
       </div>
     </div>
@@ -46,13 +46,14 @@
     <hr class="my-4">
     <div class="row">
       <div class="col m">
-        <button type="submit" class="w-100 btn btn-primary btn-lg">수정 완료</button>
+        <button type="submit" class="w-100 btn btn-primary btn-lg" th:text="#{update.complete}">변경 완료</button>
       </div>
       <div class="col m">
         <button type="button"
                 class="w-100 btn btn-secondary btn-lg"
                 onclick="location.href='home.html'"
-                th:onclick="|location.href='@{/userInfo}'|">취소</button>
+                th:onclick="|location.href='@{/userInfo}'|"
+                th:text="#{cancel}">취소</button>
       </div>
     </div>
   </form>

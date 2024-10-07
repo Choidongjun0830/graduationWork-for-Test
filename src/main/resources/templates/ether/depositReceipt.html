@@ -50,42 +50,42 @@
 <div class="wrapper">
     <div class="receipt-container">
         <div class="receipt-header">
-            <h4>보험료 납부 내역</h4>
+            <h4 th:text="#{insurance.payment.details}">보험료 납부 내역</h4>
         </div>
 
         <div class="transaction-detail">
             <div>
-                <span class="detail-label">이름:</span>
+                <span class="detail-label" th:text="#{navbar.name}">이름: </span>
                 <span class="detail-value" th:text="${transaction.name}"></span>
             </div>
         </div>
         <div class="transaction-detail">
             <div>
-                <span class="detail-label">시간:</span>
+                <span class="detail-label" th:text="#{time.colon}">시간: </span>
                 <span class="detail-value" th:text="${#dates.format(transaction.timestamp * 1000, 'yyyy-MM-dd HH:mm:ss')}"></span>
             </div>
         </div>
         <div class="transaction-detail">
             <div>
-                <span class="detail-label">From:</span>
+                <span class="detail-label">From: </span>
                 <span class="detail-value" th:text="${transaction.fromAddress}"></span>
             </div>
         </div>
         <div class="transaction-detail">
             <div>
-                <span class="detail-label">To:</span>
+                <span class="detail-label">To: </span>
                 <span class="detail-value" th:text="${transaction.toAddress}"></span>
             </div>
         </div>
         <div class="transaction-detail">
             <div>
-                <span class="detail-label">가입료(원):</span>
+                <span class="detail-label" th:text="#{insurance.premium.krw.colon}">가입료 (원): </span>
                 <span class="detail-value" th:text="${transaction.userInsurance.registerPrice}"></span>
             </div>
         </div>
         <div class="transaction-detail">
             <div>
-                <span class="detail-label">가입료(ETH):</span>
+                <span class="detail-label" th:text="#{insurance.premium.eth.colon}">가입료 (ETH): </span>
                 <span class="detail-value" th:text="${transaction.value}"></span>
             </div>
         </div>
@@ -93,7 +93,7 @@
         <div class="separator"></div>
 
         <div class="d-flex justify-content-end mt-4">
-            <a th:href="${receiptUrl}" class="btn btn-primary btn-sm me-2 custom-btn d-flex justify-content-center align-items-center" style="margin-right: 20px">Etherscan에서 보기</a>
+            <a th:href="${receiptUrl}" class="btn btn-primary btn-sm me-2 custom-btn d-flex justify-content-center align-items-center" style="margin-right: 20px" th:text="#{view.on.etherscan}">Etherscan에서 보기</a>
             <a class="navbar-brand" th:href="@{/user/info}">
                 <img src="/images/return-btn-removebg-preview.png" alt="return-logo" style="height: 52px;">
             </a>

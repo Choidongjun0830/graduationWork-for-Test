@@ -3,6 +3,7 @@
 <head th:replace="fragments/header :: header">
   <title>보험 가입 성공</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <style>
     .form-control, .btn {
       height: calc(2.25rem + 2px);
@@ -17,43 +18,79 @@
 <body>
 <div class="container" style="max-width: 60%">
   <div class="py-5 text-center">
-    <h2>보험 보상 신청</h2>
+    <h2 th:text="#{insurance.claim.request}">보험 보상 신청</h2>
   </div>
   <form action = "" th:action="@{/insurance/compensation/apply(userInsuranceId=${userInsurance.id})}" th:object="${form}" method="post" novalidate>
     <input type="hidden" name="userInsuranceId" th:value="${userInsurance.id}" />
     <div class="mb-3">
-      <label for="email" class="form-label">이메일</label>
-      <input type="text" class="form-control" id="email" th:field="*{email}" th:value="*{email}" th:errorclass="field-error" placeholder="이메일">
-      <div class="field-error" th:errors="*{email}">이메일 오류</div>
+      <label for="email" class="form-label">E-mail</label>
+      <input type="text" class="form-control" id="email" th:field="*{email}" th:value="*{email}" th:errorclass="field-error" placeholder="E-mail">
+      <div class="field-error" th:errors="*{email}" th:text="#{email.error}">E-mail 오류</div>
     </div>
     <div class="mb-3">
-      <label for="reason" class="form-label">신청 사유</label>
+      <label for="reason" class="form-label" th:text="#{claim.reason}">신청 사유</label>
       <select class="form-select" id = "reason" th:field="*{reason}" th:errorclass="field-error">
-        <option value="" selected>신청 사유</option>
+        <option value="" selected th:text="#{claim.reason}">신청 사유</option>
         <option th:each="entry: ${coverageMap != null ? coverageMap.entrySet() : {}}" th:value="${entry.key}" th:text="${entry.key}"></option>
       </select>
-      <div class="field-error" th:errors="*{reason}">신청 사유 오류</div>
+      <div class="field-error" th:errors="*{reason}" th:text="#{claim.reason.error}">신청 사유 오류</div>
     </div>
     <div class="mb-3">
-      <label for="occurrenceDate" class="form-label">발생 일자</label>
-      <input type="date" class="form-control" id="occurrenceDate" th:field="*{occurrenceDate}"
-             th:errorclass="field-error" placeholder="발생 일자">
-      <div class="field-error" th:errors="*{occurrenceDate}">발생 일자 오류</div>
+      <label for="occurrenceDate" class="form-label" th:text="#{occurrence.date}">발생 일자</label>
+      <input type="text" class="form-control" id="occurrenceDate" th:field="*{occurrenceDate}"
+             th:errorclass="field-error" th:placeholder="#{occurrence.date}">
+      <div class="field-error" th:errors="*{occurrenceDate}" th:text="#{occurrence.date.error}">발생 일자 오류</div>
     </div>
     <hr class="my-4">
     <div class="row">
       <div class="col m">
-        <button type="submit" class="w-100 btn btn-primary btn-lg">보상 신청</button>
+        <button type="submit" class="w-100 btn btn-primary btn-lg" th:text="#{apply.compensation}">보상 신청</button>
       </div>
       <div class="col m">
         <button type="button"
                 class="w-100 btn btn-secondary btn-lg"
                 onclick="location.href='home.html'"
-                th:onclick="|location.href='@{/}'|">취소</button>
+                th:onclick="|location.href='@{/}'|"
+                th:text="#{cancel}">취소</button>
       </div>
     </div>
   </form>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/fr.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ja.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/zh.js"></script>
+<script th:inline="javascript">
+  // 서버에서 전달된 언어 코드
+  const userLang = /*[[${#locale.language}]]*/ 'ko';
+
+  // 언어에 따라 로케일 설정
+  const localeMap = {
+      "ko": "ko",
+      "en": "default",
+      "fr": "fr",
+      "ja": "ja",
+      "zh": "zh"
+  };
+
+  document.addEventListener('DOMContentLoaded', function() {
+      // 사용자 언어에 따른 로케일 설정
+      const localeSetting = localeMap[userLang] || "default";
+
+      flatpickr("#occurrenceDate", {
+          enableTime: true,
+          position: "below",
+          dateFormat: "Y-m-d\\TH:i",
+          altInput: true,
+          altFormat: "Y-m-d H:i",
+          locale: {
+              ...flatpickr.l10ns[localeSetting], // 사용자 로케일 설정
+              firstDayOfWeek: 1 // 한 주의 시작일을 월요일로 설정
+          }
+      });
+  });
+</script>
 </body>
 <footer th:replace="fragments/footer :: footer"></footer>
 </html>

@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header">
-    <title>보험 가입</title>
+    <title>보험 가입 신청</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <style>
         .field-error {
             color: #dc3545;
@@ -17,7 +18,7 @@
     <div id="loadingContainer"></div>
 
     <div class="py-5 text-center">
-        <h2>보험 가입</h2>
+        <h2 th:text="#{insurance.apply}">보험 가입 신청</h2>
     </div>
     <form th:action="@{/insurance/new/{insuranceId}(insuranceId=${insurance.id})}" th:object="${dateSelectForm}" method="post" novalidate>
 
@@ -26,26 +27,26 @@
         </div>
 
         <div class="mb-3">
-            <label for="insuranceName" class="form-label">보험 이름</label>
+            <label for="insuranceName" class="form-label" th:text="#{insurance.product}">보험 상품</label>
             <input type="text" class="form-control" id="insuranceName" name="insuranceName" th:value="${insurance.name}" readonly>
         </div>
         <div class="mb-3">
-            <label for="premium" class="form-label">보험료</label>
+            <label for="premium" class="form-label" th:text="#{insurance.premium}">보험료</label>
             <input type="text" class="form-control" id="premium" name="premium" th:value="${insurance.formattedPremium}" readonly>
         </div>
         <div class="mb-3">
-            <label for="startDate" class="form-label">보험 시작 날짜</label>
-            <input type="date" class="form-control" id="startDate" name="startDate"
-                   th:field="*{startDate}" required>
+            <label for="startDate" class="form-label" th:text="#{insurance.start.date}">보험 시작일</label>
+            <input type="text" class="form-control" id="startDate" name="startDate"
+                   th:placeholder="#{insurance.start.date}" required>
             <div class="field-error"></div>
         </div>
         <div class="mb-3">
-            <label for="endDate" class="form-label">보험 종료 날짜</label>
-            <input type="date" class="form-control" id="endDate" name="endDate"
-                   th:field="*{endDate}" required>
+            <label for="endDate" class="form-label" th:text="#{insurance.end.date}">보험 만료일</label>
+            <input type="text" class="form-control" id="endDate" name="endDate"
+                   th:placeholder="#{insurance.end.date}" required>
             <div class="field-error"></div>
         </div>
-        <button class="w-100 btn btn-primary btn-lg" type="submit">가입</button>
+        <button class="w-100 btn btn-primary btn-lg" type="submit" th:text="#{insurance.application.submit}">가입 신청</button>
     </form>
 
     <script>
@@ -187,6 +188,55 @@
 
 
 </div>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/fr.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ja.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/zh.js"></script>
+<script th:inline="javascript">
+    // 서버에서 전달된 언어 코드
+    const userLang = /*[[${#locale.language}]]*/ 'ko';
+
+    // 언어에 따라 로케일 설정
+    const localeMap = {
+        "ko": "ko",
+        "en": "default",
+        "fr": "fr",
+        "ja": "ja",
+        "zh": "zh"
+    };
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // 사용자 언어에 따른 로케일 설정
+        const localeSetting = localeMap[userLang] || "default";
+
+        // startDate에 대한 Flatpickr 설정
+        flatpickr("#startDate", {
+            enableTime: true,
+            position: "below",
+            dateFormat: "Y-m-d",
+            altInput: true,
+            altFormat: "Y-m-d",
+            locale: {
+                ...flatpickr.l10ns[localeSetting], // 사용자 로케일 설정
+                firstDayOfWeek: 1 // 한 주의 시작일을 월요일로 설정
+            }
+        });
+
+        // endDate에 대한 Flatpickr 설정
+        flatpickr("#endDate", {
+            enableTime: true,
+            position: "below",
+            dateFormat: "Y-m-d",
+            altInput: true,
+            altFormat: "Y-m-d",
+            locale: {
+                ...flatpickr.l10ns[localeSetting], // 사용자 로케일 설정
+                firstDayOfWeek: 1 // 한 주의 시작일을 월요일로 설정
+            }
+        });
+    });
+</script>
 </body>
 <footer th:replace="fragments/footer :: footer"></footer>
 </html>

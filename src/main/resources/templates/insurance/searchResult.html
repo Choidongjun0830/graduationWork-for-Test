@@ -1,28 +1,28 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header">
-    <title>졸업 작품</title>
+    <title>Travée</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
 <div class="container" style="max-width: 80%">
     <div class="mt-4"></div>
     <div class="py-5 text-center">
-        <h2>보상 가능 여부 검색 결과</h2>
+        <h2 th:text="#{compensation.search.result}">보상 가능 여부 검색 결과</h2>
     </div>
     <div class="text-center mb-3" th:if="${noneLoginFlag} and ${searchResult.result}" style="color: red">
-        <h4>회원가입/로그인 후 보상 신청해주세요.</h4>
+        <h4 th:text="#{compensation.login.request}">로그인 후 보상 신청해주세요.</h4>
     </div>
     <div class="text-center mb-3">
         <h4 th:text="${searchResult.searchResult}"></h4>
     </div>
     <div class="card" th:if="${searchResult.result}">
         <div class="card-body">
-            <p><strong>항공편:</strong> <span th:text="${searchResult.flightNum}"></span></p>
-            <p><strong>출발지:</strong> <span th:text="${searchResult.departure}"></span></p>
-            <p><strong>목적지:</strong> <span th:text="${searchResult.destination}"></span></p>
-            <p><strong>출발 날짜:</strong> <span th:text="${searchResult.formattedDepartureDate}"></span></p>
-            <p><strong>상태:</strong> <span th:text="${searchResult.formattedStatus}"></span></p>
+            <p><strong th:text="#{flight.number.colon}">항공편: </strong> <span th:text="${searchResult.flightNum}"></span></p>
+            <p><strong th:text="#{departure.location.colon}">출발지: </strong> <span th:text="${searchResult.departure}"></span></p>
+            <p><strong th:text="#{destination.location.colon}">목적지: </strong> <span th:text="${searchResult.destination}"></span></p>
+            <p><strong th:text="#{departure.date.colon}">출발 날짜: </strong> <span th:text="${searchResult.formattedDepartureDate}"></span></p>
+            <p><strong th:text="#{status.colon}">상태: </strong> <span th:text="${searchResult.formattedStatus}"></span></p>
         </div>
     </div>
 

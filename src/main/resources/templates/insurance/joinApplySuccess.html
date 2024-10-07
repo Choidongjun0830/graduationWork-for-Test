@@ -7,10 +7,10 @@
 <body>
 <div class="container" style="max-width: 60%">
     <div class="py-5 text-center">
-        <h2>보험 가입 신청 성공</h2>
+        <h2 th:text="#{insurance.application.success}">보험 가입 신청 성공</h2>
     </div>
-    <div class="alert alert-success" role="alert">
-        보험 가입 신청이 완료되었습니다. 아래 주소로 보험료를 납부해주세요.
+    <div class="alert alert-success" role="alert" th:text="#{insurance.application.completed}">
+        보험 가입 신청이 완료되었습니다. 아래 스마트 계약 주소로 보험료를 납부해주세요.
     </div>
     <div class="py-5 text-center">
         <strong th:text= "${contractAddress}"></strong>
@@ -19,15 +19,15 @@
         <div class="card-body">
             <h5 class="card-title" th:text="${userInsurance.insurance.name}">보험명</h5>
             <p class="card-text">
-                <strong>보험료(원):</strong> <span th:text="${userInsurance.registerPrice}">납부할 보험료</span><br>
-                <strong>보험료(ETH):</strong> <span th:text="${userInsurance.etherRegisterPrice}">납부할 보험료</span><br>
-                <strong>보험 시작 날짜:</strong> <span th:text="${userInsurance.startDate}">시작 날짜</span><br>
-                <strong>보험 종료 날짜:</strong> <span th:text="${userInsurance.endDate}">종료 날짜</span><br>
+                <strong th:text="#{insurance.fee.krw.colon}">보험료(원): </strong> <span th:text="${userInsurance.registerPrice}">납부할 보험료</span><br>
+                <strong th:text="#{insurance.fee.eth.colon}">보험료(ETH): </strong> <span th:text="${userInsurance.etherRegisterPrice}">납부할 보험료</span><br>
+                <strong th:text="#{insurance.start.date.colon}">보험 시작일: </strong> <span th:text="${userInsurance.startDate}">시작 날짜</span><br>
+                <strong th:text="#{insurance.end.date.colon}">보험 만료일: </strong> <span th:text="${userInsurance.endDate}">종료 날짜</span><br>
             </p>
         </div>
     </div>
     <div class="py-5 text-center">
-        <button class="btn btn-primary" th:onclick="|location.href='@{/user/info}'|">내 정보로 이동</button>
+        <button class="btn btn-primary" th:onclick="|location.href='@{/user/info}'|" th:text="#{my.info}">내 정보</button>
     </div>
 </div>
 </body>

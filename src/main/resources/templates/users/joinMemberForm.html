@@ -1,69 +1,69 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header">
-    <title>졸업 작품</title>
+    <title>Travée</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
 <div class="container" style="max-width: 40%">
     <div class="py-5 text-center">
-        <h2>회원가입</h2>
+        <h2 th:text="#{signup}">회원 가입</h2>
     </div>
-    <h4 class="mb-3">회원 가입 정보 입력</h4>
+    <h4 class="mb-3" th:text="#{signup.info.input}">회원 가입 정보 입력</h4>
     <form th:action="@{/join}" th:object="${memberJoinForm}" method="post" novalidate>
         <div class="mb-3">
-            <label for="name" class="form-label">이름</label>
+            <label for="name" class="form-label" th:text="#{user.name}">이름</label>
             <input class="form-control" id="name" th:field="*{username}"
-                   th:errorclass="field-error" placeholder="이름">
-            <div class="field-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">이름 입력 오류</div>
+                   th:errorclass="field-error" th:placeholder="#{user.name}">
+            <div class="field-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}" th:text="#{name.input.error}">이름 입력 오류</div>
         </div>
         <div class="mb-3">
-            <label for="inputLoginId" class="form-label">아이디</label>
+            <label for="inputLoginId" class="form-label">ID</label>
             <input type="text" class="form-control" id="inputLoginId" th:field="*{loginId}"
-                   th:errorclass="field-error" placeholder="아이디">
-            <div class="field-error" th:if="${#fields.hasErrors('loginId')}" th:errors="*{loginId}">로그인 아이디 입력 오류</div>
+                   th:errorclass="field-error" th:placeholder="ID">
+            <div class="field-error" th:if="${#fields.hasErrors('loginId')}" th:errors="*{loginId}" th:text="#{login.id.input.error}">로그인 ID 입력 오류</div>
         </div>
         <div class="mb-3">
-            <label for="inputPassword5" class="form-label">비밀번호</label>
+            <label for="inputPassword5" class="form-label" th:text="#{password}">비밀번호</label>
             <input type="password" id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock"
-                   th:field="*{password}" th:errorclass="field-error" placeholder="비밀번호">
+                   th:field="*{password}" th:errorclass="field-error" th:placeholder="#{password}">
             <div class="field-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
-            <div id="passwordHelpBlock" class="form-text">
-                비밀번호는 8-20의 길이로, 문자와 숫자, 특수 문자를 포함해야 합니다. 공백이나 이모티콘이 들어가서는 안됩니다.
+            <div id="passwordHelpBlock" class="form-text" th:text="#{password.requirements}">
+                비밀번호는 8-20자로, 문자와 숫자, 특수 문자를 포함해야 합니다. 공백이나 이모티콘이 들어가서는 안 됩니다.
             </div>
         </div>
         <div class="mb-3">
-            <label for="inputEmail" class="form-label">이메일</label>
+            <label for="inputEmail" class="form-label">E-mail</label>
             <input type="email" id="inputEmail" class="form-control"
-                   th:field="*{email}" th:errorclass="field-error" placeholder="이메일">
+                   th:field="*{email}" th:errorclass="field-error" placeholder="E-mail">
             <div class="field-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
         </div>
         <div class="mb-3">
-            <label for="inputWalletAddress" class="form-label">가상 화폐 계좌</label>
+            <label for="inputWalletAddress" class="form-label" th:text="#{metamask.wallet.address}">MetaMask 지갑 주소</label>
             <input type="email" id="inputWalletAddress" class="form-control"
-                   th:field="*{walletAddress}" th:errorclass="field-error" placeholder="가상 화폐 계좌">
+                   th:field="*{walletAddress}" th:errorclass="field-error" th:placeholder="#{metamask.wallet.address}">
             <div class="field-error" th:if="${#fields.hasErrors('walletAddress')}" th:errors="*{walletAddress}"></div>
-            <div id="WalletAddressHelpBlock" class="form-text">
-                가상 화폐 계좌는 후에 내 정보에서도 입력할 수 있습니다. 하지만, 보험 가입 시에는 가상 화폐 계좌가 필요합니다.
+            <div id="WalletAddressHelpBlock" class="form-text" th:text="#{metamask.wallet.info}">
+                MetaMask 지갑 주소는 사후에 내 정보에서도 입력할 수 있습니다. 하지만, 보험 가입 시에는 MetaMask 지갑 주소가 필요합니다.
             </div>
         </div>
 
         <div class="mb-3">
-            <label class="form-label">주소</label>
+            <label class="form-label" th:text="#{address}">주소</label>
             <div class="input-group-custom">
                 <input type="text" id="inputZipCode" class="group-form-control"
-                       th:field="*{zipCode}" th:errorclass="field-error" placeholder="우편번호" readonly>
-                <button type="button" class="btn group-btn-primary" onclick="execDaumPostcode()">주소 찾기</button>
+                       th:field="*{zipCode}" th:errorclass="field-error" th:placeholder="#{postal.code}" readonly>
+                <button type="button" class="btn group-btn-primary" onclick="execDaumPostcode()" th:text="#{find.address}">주소 찾기</button>
             </div>
             <div class="field-error" th:if="${#fields.hasErrors('zipCode')}" th:errors="*{zipCode}"></div>
             <div class="mt-2">
                 <input type="text" id="inputRoadAddress" class="form-control"
-                       th:field="*{roadAddress}" th:errorclass="field-error" placeholder="도로명 주소" readonly>
+                       th:field="*{roadAddress}" th:errorclass="field-error" th:placeholder="#{road.address}" readonly>
                 <div class="field-error" th:if="${#fields.hasErrors('roadAddress')}" th:errors="*{roadAddress}"></div>
             </div>
             <div class="mt-2">
                 <input type="text" id="inputDetailAddress" class="form-control"
-                       th:field="*{detailAddress}" th:errorclass="field-error" placeholder="상세 주소">
+                       th:field="*{detailAddress}" th:errorclass="field-error" th:placeholder="#{detailed.address}">
                 <div class="field-error" th:if="${#fields.hasErrors('detailAddress')}" th:errors="*{detailAddress}"></div>
             </div>
         </div>
@@ -71,13 +71,14 @@
         <hr class="my-4">
         <div class="row">
             <div class="col m">
-                <button type="submit" class="w-100 btn btn-primary btn-lg">회원 가입</button>
+                <button type="submit" class="w-100 btn btn-primary btn-lg" th:text="#{signup}">회원 가입</button>
             </div>
             <div class="col m">
                 <button type="button"
                         class="w-100 btn btn-secondary btn-lg"
                         onclick="location.href='home.html'"
-                        th:onclick="|location.href='@{/}'|">취소</button>
+                        th:onclick="|location.href='@{/}'|"
+                        th:text="#{cancel}">취소</button>
             </div>
         </div>
     </form>

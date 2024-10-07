@@ -25,7 +25,7 @@
 <body>
 <div class="container" style="max-width: 80%">
     <div class="py-5 text-center">
-        <h2>국내 여행 보험 선택</h2>
+        <h2 th:text="#{select.domestic.travel.insurance}">국내 여행 보험 선택</h2>
     </div>
     <div class="row">
         <div class="col-md-6 mb-4" th:each="insurance : ${domesticInsurances}">
@@ -33,9 +33,11 @@
                 <div class="card-body text-center position-relative">
                     <h4 class="card-title" th:text="${insurance.name}">Insurance Name</h4>
                     <hr class="my-4">
-                    <p class="card-text">일당 보험료: <span th:text="${insurance.formattedPremium}">Premium</span></p>
+                    <p class="card-text" th:inline="text">
+                        [[#{daily.premium}]]<span th:text="${insurance.formattedPremium}">Premium</span>
+                    </p>
                     <hr class="my-4">
-                    <h5 class="card-title">보장 내역</h5>
+                    <h5 class="card-title" th:text="#{coverage.details}">보장 내역</h5>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item" th:each="detail : ${insurance.coverageDetails}" th:text="${detail}">Coverage Detail</li>
                     </ul>

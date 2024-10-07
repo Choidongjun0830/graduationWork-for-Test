@@ -1,9 +1,9 @@
 <!-- loading.html -->
 <div class="loading-container">
-    <div class="spinner"></div>
-    <div id="loading-text">Loading...</div>
+    <!--<div class="spinner"></div>
+    <div id="loading-text">Loading...</div>-->
     <div>
-        <img src="/images/Hourglass.gif" alt="Loading img">
+        <img src="/images/travee-logo-loading2.gif" alt="Loading img">
     </div>
 </div>
 
@@ -20,24 +20,21 @@
         align-items: center;
         z-index: 9999;
     }
-
     .spinner {
-        border: 8px solid #f3f3f3; /* Light grey */
-        border-top: 8px solid #3498db; /* Blue */
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        animation: spin 1s linear infinite;
+      border: 8px solid #f3f3f3; /* Light grey */
+      border-top: 8px solid #3498db; /* Blue */
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
     }
-
     @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
-
     #loading-text {
-        color: white;
-        margin-top: 20px;
-        font-size: 16px;
+      color: white;
+      margin-top: 20px;
+      font-size: 16px;
     }
 </style>

@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
 </head>
 <body>
-<button id="sendTransactionButton">보상 지급</button>
+<button id="sendTransactionButton" th:text="#{insurance.payout}">보상 지급</button>
 
 <script>
     document.getElementById('sendTransactionButton').addEventListener('click', async () => {

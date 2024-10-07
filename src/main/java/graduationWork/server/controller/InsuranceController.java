@@ -35,8 +35,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static graduationWork.server.domain.QUserInsurance.userInsurance;
-
 @Controller
 @Slf4j
 @RequiredArgsConstructor
@@ -285,7 +283,7 @@ public class InsuranceController {
     //보상 완료
     @GetMapping( "/insurance/compensation/apply/flightDelay/confirm")
     public String flightCompensationConfirm(@RequestParam Long userInsuranceId, Model model,
-                                        @SessionAttribute(name = SessionConst.LOGIN_USER) User loginUser) {
+                                            @SessionAttribute(name = SessionConst.LOGIN_USER) User loginUser) {
 
         UserInsurance userInsurance = userInsuranceService.findOne(userInsuranceId);
         CompensationOption option = userInsurance.getCompensationOption();
@@ -296,6 +294,7 @@ public class InsuranceController {
         User user = userInsurance.getUser();
 
         if (option == CompensationOption.OPTION_AUTO) {
+            String amount = userInsurance.getCompensationAmount();
             String userWalletAddress = user.getWalletAddress();
 
             CompensationDto fillCompensationAmount = web3jClient.fillCompensationAmount(String.valueOf(compensationAmountInWei));
@@ -343,9 +342,9 @@ public class InsuranceController {
     //파일 업로드
     @PostMapping("/insurance/compensation/apply/upload")
     public ResponseEntity<?> upload(@RequestParam Long userInsuranceId,
-                                                      @SessionAttribute(name = SessionConst.LOGIN_USER) User loginUser,
-                                                      @ModelAttribute("uploadForm") UploadCompensationApplyForm uploadForm,
-                                                      BindingResult bindingResult) throws IOException {
+                                    @SessionAttribute(name = SessionConst.LOGIN_USER) User loginUser,
+                                    @ModelAttribute("uploadForm") UploadCompensationApplyForm uploadForm,
+                                    BindingResult bindingResult) throws IOException {
 
         Map<String, String> response = new HashMap<>();
 
@@ -391,7 +390,7 @@ public class InsuranceController {
 
     @GetMapping("/insurance/domestic")
     public String domesticInsuranceLists(@SessionAttribute(name = SessionConst.LOGIN_USER, required = false) User loginUser,
-                                 Model model) {
+                                         Model model) {
         List<Insurance> domesticInsurances = insuranceService.findAllInsurancesByType(InsuranceType.DOMESTIC);
         model.addAttribute("domesticInsurances", domesticInsurances);
 
@@ -400,7 +399,7 @@ public class InsuranceController {
 
     @GetMapping("/insurance/oversea")
     public String overseaInsuranceLists(@SessionAttribute(name = SessionConst.LOGIN_USER, required = false) User loginUser,
-                                 Model model) {
+                                        Model model) {
         List<Insurance> overseasInsurances = insuranceService.findAllInsurancesByType(InsuranceType.OVERSEAS);
         model.addAttribute("overseasInsurances", overseasInsurances);
 

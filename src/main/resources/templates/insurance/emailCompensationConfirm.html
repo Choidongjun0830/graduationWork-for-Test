@@ -51,42 +51,42 @@
 <div class="wrapper">
     <div class="receipt-container">
         <div class="receipt-header">
-            <h4>보험 상담 신청 완료</h4>
+            <h4 th:text="#{insurance.consultation.complete}">보험 상담 신청 완료</h4>
         </div>
 
         <div class="transaction-detail">
-            <span class="detail-label">보험 이름:</span>
-            <span class="detail-value" th:text="${userInsurance.insurance.name}">보험 이름</span>
+            <span class="detail-label" th:text="#{insurance.product.colon}">보험 상품: </span>
+            <span class="detail-value" th:text="${userInsurance.insurance.name}">보험 상품</span>
         </div>
         <div class="transaction-detail">
-            <span class="detail-label">회원 이름:</span>
-            <span class="detail-value" th:text="${userInsurance.user.username}">회원 이름</span>
+            <span class="detail-label" th:text="#{member.name.colon}">회원명: </span>
+            <span class="detail-value" th:text="${userInsurance.user.username}">회원명</span>
         </div>
         <div class="transaction-detail">
-            <span class="detail-label">보상 신청 사유:</span>
+            <span class="detail-label" th:text="#{claim.reason.colon}">보상 신청 사유: </span>
             <span class="detail-value" th:text="${userInsurance.reason}">보상 신청 사유</span>
         </div>
         <div class="transaction-detail">
-            <span class="detail-label">사건 발생 날짜:</span>
-            <span class="detail-value" th:text="${userInsurance.occurrenceDate}">사건 발생 날짜</span>
+            <span class="detail-label" th:text="#{incident.date.colon}">사건 발생일: </span>
+            <span class="detail-value" th:text="${userInsurance.occurrenceDate}">사건 발생일</span>
         </div>
         <div class="transaction-detail">
-            <span class="detail-label">신청 날짜:</span>
-            <span class="detail-value" th:text="${userInsurance.applyDate}">신청 날짜</span>
+            <span class="detail-label" th:text="#{application.date.colon}">신청일: </span>
+            <span class="detail-value" th:text="${userInsurance.applyDate}">신청일</span>
         </div>
         <div class="transaction-detail">
-            <span class="detail-label">보상 금액 (원):</span>
+            <span class="detail-label" th:text="#{compensation.amount.krw.colon}">보상 금액 (원): </span>
             <span class="detail-value" th:text="${userInsurance.compensationAmount}"></span>
         </div>
         <div class="transaction-detail">
-            <span class="detail-label">보상 금액 (이더리움):</span>
+            <span class="detail-label" th:text="#{compensation.amount.eth.colon}">보상 금액 (ETH): </span>
             <span class="detail-value" th:text="${userInsurance.compensationAmountEther}"></span>
         </div>
 
         <div class="separator"></div>
 
         <div class="d-flex justify-content-end">
-            <button class="btn btn-primary" th:onclick="|location.href='@{/user/info}'|">돌아가기</button>
+            <button class="btn btn-primary" th:onclick="|location.href='@{/user/info}'|" th:text="#{go.back}">돌아가기</button>
         </div>
     </div>
 </div>

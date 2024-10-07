@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header">
-    <title>졸업 작품</title>
+    <title>Travée</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
 <div class="container" style="max-width: 40%">
     <div class="py-5 text-center" style="width: 100%">
-        <h2>여행 유형 선택</h2>
+        <h2 th:text="#{select.travel.type}">여행 유형 선택</h2>
     </div>
 <!--    row 높이 키우기 -->
     <div class="row" style="height: 30vh">
         <div class="col-md-6 mb-4">
             <div class="card h-100">
                 <div class="card-body text-center position-relative">
-                    <h4 class="card-title">국내 여행</h4>
+                    <h4 class="card-title" th:text="#{domestic.travel}">국내 여행</h4>
                     <hr class="my-4">
-                    <p class="card-text" style="margin-bottom: 30px">국내 여행 계획을 세우고 계신가요?</p>
+                    <p class="card-text" style="margin-bottom: 30px" th:text="#{domestic.travel.plan}">국내 여행을 계획하고 계신가요?</p>
                     <img th:src="@{'/static/images/landmark_' + ${#locale.language} + '.png'}" style="width: 100px; height: 100px">
                     <a th:href="@{'/insurance/new/domestic'}" class="stretched-link"></a>
                 </div>
@@ -25,9 +25,9 @@
         <div class="col-md-6 mb-4">
             <div class="card h-100">
                 <div class="card-body text-center position-relative">
-                    <h4 class="card-title">해외 여행</h4>
+                    <h4 class="card-title" th:text="#{overseas.travel}">해외 여행</h4>
                     <hr class="my-4">
-                    <p class="card-text" style="margin-bottom: 30px">해외 여행 계획을 세우고 계신가요?</p>
+                    <p class="card-text" style="margin-bottom: 30px" th:text="#{overseas.travel.plan}">해외 여행을 계획하고 계신가요?</p>
                     <img src="/images/earth-color.png" alt="Earth img" style="width: 100px; height: 100px">
                     <a th:href="@{'/insurance/new/overseas'}" class="stretched-link"></a>
                 </div>

@@ -55,29 +55,29 @@
 <div class="wrapper">
     <div class="receipt-container">
         <div class="receipt-header">
-            <h4>보험료 송금 내역</h4>
+            <h4 th:text="#{insurance.payment.details}">보험료 납부 내역</h4>
         </div>
 
         <div th:each="transaction : ${userTransactions}">
             <div class="transaction-detail">
                 <div>
-                    <span class="detail-label">Timestamp:</span>
+                    <span class="detail-label">Timestamp: </span>
                     <span class="detail-value" th:text="${#dates.format(transaction.timestamp * 1000, 'yyyy-MM-dd HH:mm:ss')}"></span>
                 </div>
                 <div>
-                    <span class="detail-label">Transaction ID:</span>
+                    <span class="detail-label">Transaction ID: </span>
                     <span class="detail-value" th:text="${transaction.hash}"></span>
                 </div>
                 <div>
-                    <span class="detail-label">From:</span>
+                    <span class="detail-label">From: </span>
                     <span class="detail-value" th:text="${transaction.from}"></span>
                 </div>
                 <div>
-                    <span class="detail-label">To:</span>
+                    <span class="detail-label">To: </span>
                     <span class="detail-value" th:text="${transaction.to}"></span>
                 </div>
                 <div>
-                    <span class="detail-label">Value:</span>
+                    <span class="detail-label">Value: </span>
                     <span class="detail-value" th:text="${transaction.value}"></span>
                 </div>
             </div>
@@ -88,7 +88,7 @@
         </div>
 
         <div class="d-flex justify-content-end mt-4">
-            <button class="btn btn-primary" th:onclick="|location.href='@{/dashboard}'|">돌아가기</button>
+            <button class="btn btn-primary" th:onclick="|location.href='@{/dashboard}'|" th:text="#{go.back}">돌아가기</button>
         </div>
     </div>
 </div>

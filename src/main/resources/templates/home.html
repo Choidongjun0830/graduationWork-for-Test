@@ -86,7 +86,7 @@
                     <div class="field-error" th:errors="*{flightNum}"></div>
                 </div>
                 <div>
-                    <label for="departureDate" class="form-label" th:text="#{departure.date}">예정 출발 날짜</label>
+                    <label for="departureDate" class="form-label" th:text="#{scheduled.departure.date}">예정 출발 날짜</label>
                     <input type="text" th:placeholder="#{departure.date.placeholder}" class="form-control" id="departureDate" name="departureDate" th:field="*{departureDate}" required>
                     <div class="field-error" th:errors="*{departureDate}"></div>
                 </div>

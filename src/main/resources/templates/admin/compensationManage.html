@@ -28,28 +28,28 @@
     <div id="loadingContainer"></div>
 
     <div class="py-5 text-center">
-        <h2>보험 상세 정보</h2>
+        <h2 th:text="#{insurance.details}">보험 상세 정보</h2>
     </div>
     <div class="row justify-content-center">
         <div class="col-md-6 mb-4">
             <div class="card h-100">
                 <div class="card-body text-center position-relative">
                     <h5 class="card-title" th:text="${userInsurance?.insurance?.name + ' - ' + userInsurance?.user?.username}">Insurance Name - User Name</h5>
-                    <p class="card-text">이메일: <span th:text="${userInsurance?.user?.email}">Email</span></p>
-                    <p class="card-text">가입일: <span th:text="${userInsurance?.registerDate}">RegisterDate</span></p>
-                    <p class="card-text">시작일: <span th:text="${userInsurance?.startDate}">StartDate</span></p>
-                    <p class="card-text">만료일: <span th:text="${userInsurance?.endDate}">EndDate</span></p>
-                    <p class="card-text">신청일: <span th:text="${userInsurance?.applyDate}">ApplyDate</span></p>
-                    <p class="card-text">신청 사유: <span th:text="${userInsurance?.reason}">Reason</span></p>
-                    <p class="card-text">발생 일: <span th:text="${userInsurance?.occurrenceDate}">OccurrenceDate</span></p>
-                    <p class="card-text">가입 보험료: <span th:text="${userInsurance?.registerPrice}">RegisterPrice</span></p>
+                    <p class="card-text" th:inline="text">[[#{email.colon}]]<span th:text="${userInsurance?.user?.email}">Email</span></p>
+                    <p class="card-text" th:inline="text">[[#{insurance.signup.date.colon}]]<span th:text="${userInsurance?.registerDate}">RegisterDate</span></p>
+                    <p class="card-text" th:inline="text">[[#{insurance.start.date.colon}]]<span th:text="${userInsurance?.startDate}">StartDate</span></p>
+                    <p class="card-text" th:inline="text">[[#{insurance.end.date.colon}]]<span th:text="${userInsurance?.endDate}">EndDate</span></p>
+                    <p class="card-text" th:inline="text">[[#{claim.application.date.colon}]]<span th:text="${userInsurance?.applyDate}">ApplyDate</span></p>
+                    <p class="card-text" th:inline="text">[[#{claim.reason.colon}]]<span th:text="${userInsurance?.reason}">Reason</span></p>
+                    <p class="card-text" th:inline="text">[[#{incident.date.colon}]]<span th:text="${userInsurance?.occurrenceDate}">OccurrenceDate</span></p>
+                    <p class="card-text" th:inline="text">[[#{insurance.premium.colon}]]<span th:text="${userInsurance?.registerPrice}">RegisterPrice</span></p>
                     <hr class="my-4">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item" th:each="detail : ${userInsurance?.insurance?.coverageDetails}" th:text="${detail}">Coverage Detail</li>
                     </ul>
                     <form th:action="@{/insurance/admin/sendCompensationMail}" method="post">
                         <input type="hidden" name="userInsuranceId" th:value="${userInsurance?.id}"/>
-                        <button type="submit" class="btn btn-primary btn-email">이메일 전송</button>
+                        <button type="submit" class="btn btn-primary btn-email" th:text="#{email.send}">이메일 전송</button>
                     </form>
                 </div>
             </div>

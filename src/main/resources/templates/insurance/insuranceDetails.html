@@ -26,16 +26,16 @@
 <body>
 <div class="container" style="max-width: 60%">
     <div class="py-5 text-center">
-        <h2>보험 보장 내역</h2>
-        <h4 th:text="'보험 이름: ' + ${insurance.name}">보험 이름</h4>
-        <p class="lead">보험의 상세 보장 내역을 아래 표에서 확인할 수 있습니다.</p>
+        <h2 th:text="#{insurance.coverage.details}">보험 보장 내역</h2>
+        <h4 th:text="#{insurance.product.colon} + ${insurance.name}">보험 상품</h4>
+        <p class="lead" th:text="#{insurance.coverage.description}">보험의 상세 보장 내역을 아래 표에서 확인할 수 있습니다.</p>
     </div>
     <div class="table-responsive">
         <table class="table table-striped table-bordered text-center mt-4">
             <thead>
             <tr>
-                <th scope="col">항목</th>
-                <th scope="col">보장 금액/비율</th>
+                <th scope="col" th:text="#{item}">항목</th>
+                <th scope="col" th:text="#{coverage.amount.rate}">보장 금액/비율</th>
             </tr>
             </thead>
             <tbody>
