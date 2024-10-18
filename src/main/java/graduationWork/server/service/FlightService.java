@@ -1,7 +1,10 @@
 package graduationWork.server.service;
 
 import graduationWork.server.domain.Flight;
+import graduationWork.server.flightApi.FlightClient;
 import graduationWork.server.repository.FlightRepository;
+import java.io.IOException;
+import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,7 @@ import java.util.List;
 public class FlightService {
 
     private final FlightRepository flightRepository;
+    private final FlightClient flightClient;
 
     @Transactional
     public Long addFlight(Flight flight) {
@@ -30,5 +34,13 @@ public class FlightService {
 
     public Flight getFlight(String flightNumber, LocalDateTime departureDate) {
         return flightRepository.findByFlightNumDepartureDate(flightNumber, departureDate);
+    }
+
+    public void getFlightFromOpenApi() throws IOException {
+        ArrayList<Flight> flights = flightClient.searchFlights();
+
+        for (Flight flight : flights) {
+            System.out.println("flight = " + flight);
+        }
     }
 }

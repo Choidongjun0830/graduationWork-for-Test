@@ -27,7 +27,14 @@ public class Flight {
     @Enumerated(EnumType.STRING)
     private FlightStatus status;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_id")
-//    private User user;
+    @Override
+    public String toString() {
+        return "Flight{" +
+                "departure='" + departure + '\'' +
+                ", destination='" + destination + '\'' +
+                ", departureDate=" + departureDate +
+                ", flightNum='" + flightNum + '\'' +
+                ", status=" + status +
+                '}';
+    }
 }
