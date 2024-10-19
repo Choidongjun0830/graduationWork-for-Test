@@ -3,6 +3,7 @@ package graduationWork.server.flightApi;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import graduationWork.server.domain.Flight;
+import graduationWork.server.enumurate.FlightStatus;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -69,6 +70,7 @@ public class FlightClient {
                     String arrival = itemNode.path("airportCode").asText();
                     String remark = itemNode.path("remark").asText();
                     String departureTime = itemNode.path("scheduleDateTime").asText();
+                    String estimatedTime = itemNode.path("estimatedDateTime").asText();
 
                     Flight flight = new Flight();
                     flight.setFlightNum(flightId);
@@ -80,10 +82,24 @@ public class FlightClient {
                     int year = today.getYear();
                     int month = today.getMonthValue();
                     int day = today.getDayOfMonth();
-                    Integer hour = Integer.valueOf(departureTime.substring(0, 2));
-                    Integer min = Integer.valueOf(departureTime.substring(3, 4));
 
-                    LocalDateTime departureDate = LocalDateTime.of(year, month, day, hour, min);
+                    int departureHour = Integer.parseInt(departureTime.substring(0, 2));
+                    int departureMin = Integer.parseInt(departureTime.substring(3, 4));
+                    int departureTimeInMin = departureHour * 60 + departureMin;
+
+                    int estimatedHour = Integer.parseInt(estimatedTime.substring(0, 2));
+                    int estimatedMin = Integer.parseInt(estimatedTime.substring(3, 4));
+                    int estimatedTimeInMin = estimatedHour * 60 + estimatedMin;
+
+                    if (remark.equals("결항")) {
+                        flight.setStatus(FlightStatus.CANCELLED);
+                    } else if (remark.equals("지연") && (estimatedTimeInMin - departureTimeInMin > 180)) {
+                        flight.setStatus(FlightStatus.DELAYED);
+                    } else {
+                        flight.setStatus(FlightStatus.SCHEDULED);
+                    }
+
+                    LocalDateTime departureDate = LocalDateTime.of(year, month, day, departureHour, departureMin);
                     flight.setDepartureDate(departureDate);
 
                     flights.add(flight);

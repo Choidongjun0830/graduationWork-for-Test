@@ -36,11 +36,13 @@ public class FlightService {
         return flightRepository.findByFlightNumDepartureDate(flightNumber, departureDate);
     }
 
-    public void getFlightFromOpenApi() throws IOException {
+    @Transactional
+    public void setFlightFromOpenApi() throws IOException {
         ArrayList<Flight> flights = flightClient.searchFlights();
 
+        Flight first = flights.getFirst();
         for (Flight flight : flights) {
-            System.out.println("flight = " + flight);
+            flightRepository.save(flight);
         }
     }
 }

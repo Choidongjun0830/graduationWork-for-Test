@@ -67,28 +67,28 @@
 
   // 언어에 따라 로케일 설정
   const localeMap = {
-      "ko": "ko",
-      "en": "default",
-      "fr": "fr",
-      "ja": "ja",
-      "zh": "zh"
+    "ko": "ko",
+    "en": "default",
+    "fr": "fr",
+    "ja": "ja",
+    "zh": "zh"
   };
 
   document.addEventListener('DOMContentLoaded', function() {
-      // 사용자 언어에 따른 로케일 설정
-      const localeSetting = localeMap[userLang] || "default";
+    // 사용자 언어에 따른 로케일 설정
+    const localeSetting = localeMap[userLang] || "default";
 
-      flatpickr("#occurrenceDate", {
-          enableTime: true,
-          position: "below",
-          dateFormat: "Y-m-d\\TH:i",
-          altInput: true,
-          altFormat: "Y-m-d H:i",
-          locale: {
-              ...flatpickr.l10ns[localeSetting], // 사용자 로케일 설정
-              firstDayOfWeek: 1 // 한 주의 시작일을 월요일로 설정
-          }
-      });
+    flatpickr("#occurrenceDate", {
+      enableTime: true,
+      position: "below",
+      dateFormat: "Y-m-d",
+      altInput: true,
+      altFormat: "Y-m-d",
+      locale: {
+        ...flatpickr.l10ns[localeSetting], // 사용자 로케일 설정
+        firstDayOfWeek: 1 // 한 주의 시작일을 월요일로 설정
+      }
+    });
   });
 </script>
 </body>

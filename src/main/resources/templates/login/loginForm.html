@@ -33,20 +33,20 @@
         <div th:if="${#fields.hasGlobalErrors()}">
             <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
         </div>
-    <hr class="my-4">
-    <div class="row">
-        <div class="col m">
-            <button type="submit" class="w-100 btn btn-primary btn-lg" th:text="#{login}">로그인</button>
+        <hr class="my-4">
+        <div class="row">
+            <div class="col m">
+                <button type="submit" class="w-100 btn btn-primary btn-lg" th:text="#{login}">로그인</button>
+            </div>
+            <div class="col m">
+                <button type="button"
+                        class="w-100 btn btn-secondary btn-lg"
+                        onclick="location.href='home.html'"
+                        th:onclick="|location.href='@{/}'|" th:text="#{cancel}">취소</button>
+            </div>
         </div>
-        <div class="col m">
-            <button type="button"
-                class="w-100 btn btn-secondary btn-lg"
-                onclick="location.href='home.html'"
-                th:onclick="|location.href='@{/}'|" th:text="#{cancel}">취소</button>
-        </div>
-    </div>
     </form>
-  </div>
+</div>
 </body>
 <footer th:replace="fragments/footer :: footer"></footer>
 </html>
