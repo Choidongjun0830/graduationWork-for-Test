@@ -19,10 +19,10 @@ public class InitFlights {
 
     private final InitFlightService initFlightService;
 
-//    @PostConstruct
-//    public void init() {
-//        initFlightService.initFlights();
-//    }
+    @PostConstruct
+    public void init() {
+        initFlightService.initFlights();
+    }
 
     @Component
     @Transactional

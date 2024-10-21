@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="css/bootstrap.min.css" rel="stylesheet">
+    <title>Mat & Mut</title>
+</head>
+<body>
+<div class="container" style="max-width: xl">
+    <div class="py-5 text-center">
+        <h2>Mat & Mut</h2>
+    </div>
+    <div class="py-5 text-center">
+        <h2>쇼핑 정보</h2>
+    </div>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>게시판</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>날짜</th>
+            <th>조회수</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="post : ${postList}">
+            <td><a href="postView.html" th:href="@{|/board/${post.id}|}" th:text="${post.id}">ID</a></td>
+            <td><a href="postView.html" th:href="@{|/board/${post.id}|}">공지</a></td>
+            <td><a href="postView.html" th:href="@{|/board/${post.id}|}" th:text="${post.title}"></a></td>
+            <td th:text="${post.writer}"></td>
+            <td th:text="${post.postTime}"></td>
+            <td th:text="${post.views}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <hr class="my-4">
+    <button type="button" class="btn btn-primary pull-right" onclick="location.href='/boardList/write'">글쓰기</button>
+</div>
+</body>
+<footer th:replace="fragments/footer :: footer"></footer>
+</html>

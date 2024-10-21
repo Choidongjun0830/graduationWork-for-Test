@@ -36,6 +36,10 @@ dependencies {
 	implementation "org.apache.tomcat.embed:tomcat-embed-jasper"
 	implementation 'mysql:mysql-connector-java:8.0.32'
 //	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.hibernate:hibernate-core:6.5.2.Final'
+	implementation 'jakarta.xml.bind:jakarta.xml.bind-api:3.0.1'
+	implementation 'org.glassfish.jaxb:jaxb-runtime:3.0.2'
+
 
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.1'
 	implementation 'com.fasterxml.jackson.core:jackson-core:2.17.1'

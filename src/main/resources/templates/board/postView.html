@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+    <title>Mat & Mut</title>
+</head>
+<body>
+<div class="container" style="max-width: xl">
+    <div class="py-5 text-center">
+        <h2>Mat & Mut</h2>
+    </div>
+    <form action = "" method="post">
+
+        <div class="input-group">
+            <input type="text" class="form-control" th:value="${post.header}" readonly>
+            <input type="text" class="form-control" th:value="${post.title}" readonly>
+        </div>
+
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label"></label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" th:text="${post.contents}" readonly></textarea>
+        </div>
+        <hr class="my-4">
+        <div class="row">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="button"
+                        class="btn btn-primary me-md-2"
+                        onclick="location.href='boardList.html'"
+                        th:onclick="|location.href='@{/}'|">홈으로</button>
+                <button type="button"
+                        class="btn btn-primary"
+                        onclick="location.href='editPostForm.html'"
+                        th:onclick="|location.href='@{/boardList/{postId}/edit(postId=${post.id})}'|">수정</button>
+                <button class="btn btn-primary"
+                        onclick="location.href='boardList.html'"
+                        th:onclick="|location.href='@{/boardList/{postId}(postId=${post.id})}'|"
+                        type="button">삭제</button>
+            </div>
+        </div>
+
+    </form>
+</div>
+</body>
+<footer th:replace="fragments/footer :: footer"></footer>
+</html>
